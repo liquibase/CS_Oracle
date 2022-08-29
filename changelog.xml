@@ -1,0 +1,42 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+ 
+            <include file="main/100_ddl/01_create_table_without_precondition.sql"/>
+<!--
+            <include file="main/100_ddl/02_create_table_with_precondition.sql"/>
+
+            <include file="main/100_ddl/04_add_column.sql"/>
+
+            <include file="main/100_ddl/17_create_index.sql"/>
+
+            <include file="main/100_ddl/19_create_table_with_fk.sql"/>
+
+            <include file="main/200_dml/07_dml_insert.sql"/>
+
+            <include file="main/200_dml/07_dml_update.sql"/>
+
+            <include file="main/200_dml/07_dml_delete.sql"/>  -->
+
+            <include file="main/200_dml/09_dml_context.sql"/>
+
+            <include file="main/DB_XML/12_createtrigger_rollback_drop.xml"/>
+            <!-- <include file="main/DB_XML/13_createprocedure_rollback_drop.xml"/>
+
+            <include file="main/DB_XML/14_createprocedure.xml"/>
+
+            <include file="main/DB_XML/15_createview.xml"/> -->
+
+            <!--include file="main/DB_XML/21_LoadDataFromCSV.xml"/-->
+
+            <!--include file="main/100_ddl/20_create_table_another_schema.sql"/-->
+
+            <!--include file="main/200_dml/test_rollback.sql"/>
+
+            <include file="content/main/DB_XML/LoadDataFromCSV.xml"/>
+
+            <include file="content/main/DB_XML/gatherTableStats.xml"/>
+
+            <include file="content/main/DB_XML/Compile_Invalid_Objects.xml"/-->
+
+        </databaseChangeLog>
