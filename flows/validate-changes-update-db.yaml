@@ -22,7 +22,7 @@ stages:
     actions:
     - type: liquibase
       # Run everywhere but DEV
-      if: "${LIQUIBASE_FLOW_ENV} != dev"
+      if: "${LIQUIBASE_FLOW_ENV} != DEV"
       command: flow
       cmdArgs: {flow-file: "${LIQUIBASE_FLOW_DIR}/generate-update-info.yaml"}
 
