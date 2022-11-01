@@ -4,6 +4,7 @@
 #   This flow runs several Liquibase commands to generate information that could be usefil for review, auditing
 #   and troubleshooting purposes.  It will run in all shared pipeline environments from CI onward. It is not
 #   required in development environments
+# How to use: liquibase flow --flow-file=validate-changes-update-db.yaml
 
 stages:
   validateChangelog:
