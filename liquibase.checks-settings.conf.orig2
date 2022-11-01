@@ -54,6 +54,29 @@ rules:
   severity: INFO
   shortName: TableColumnLimit
 - !!com.datical.liquibase.ext.checks.config.model.DynamicRule
+  description: This check warns a user when changeset includes or generates sql that
+    grants specific privileges to a user or role
+  enabled: false
+  id: !!java.util.UUID '751a7709-1676-36eb-b1fb-31819ff4b681'
+  name: Warn on Grant of Specific Privileges
+  parameters:
+  - {parameter: PRIVILEGE_LIST, value: null}
+  parentRuleId: null
+  severity: INFO
+  shortName: SqlGrantSpecificPrivsWarn
+- !!com.datical.liquibase.ext.checks.config.model.BasicRule {enabled: true, id: !!java.util.UUID '136bed9a-17c5-3edc-b1e7-30065052e859',
+  severity: BLOCKER}
+- !!com.datical.liquibase.ext.checks.config.model.BasicRule {enabled: false, id: !!java.util.UUID '892b5881-6d02-3846-bdf0-c8538e7b013f',
+  severity: INFO}
+- !!com.datical.liquibase.ext.checks.config.model.BasicRule {enabled: true, id: !!java.util.UUID 'a85a72fd-9d93-33cd-bbdb-59f21538af9d',
+  severity: BLOCKER}
+- !!com.datical.liquibase.ext.checks.config.model.BasicRule {enabled: false, id: !!java.util.UUID '00da80be-8adf-3c05-9380-b2538ae3015a',
+  severity: INFO}
+- !!com.datical.liquibase.ext.checks.config.model.BasicRule {enabled: false, id: !!java.util.UUID 'e56b7a4a-5953-3be3-96d2-0814eb8e7a02',
+  severity: INFO}
+- !!com.datical.liquibase.ext.checks.config.model.BasicRule {enabled: false, id: !!java.util.UUID '517fcf2f-769c-3916-af1c-4c6aeef37914',
+  severity: INFO}
+- !!com.datical.liquibase.ext.checks.config.model.DynamicRule
   description: This check confirms the listed object names conform to the supplied
     pattern.
   enabled: false
@@ -81,20 +104,7 @@ rules:
   parentRuleId: null
   severity: INFO
   shortName: ObjectNameMustNotMatch
-- !!com.datical.liquibase.ext.checks.config.model.DynamicRule
-  description: This check warns a user when changeset includes or generates sql that
-    grants specific privileges to a user or role
-  enabled: false
-  id: !!java.util.UUID '751a7709-1676-36eb-b1fb-31819ff4b681'
-  name: Warn on Grant of Specific Privileges
-  parameters:
-  - {parameter: PRIVILEGE_LIST, value: null}
-  parentRuleId: null
-  severity: INFO
-  shortName: SqlGrantSpecificPrivsWarn
-- !!com.datical.liquibase.ext.checks.config.model.BasicRule {enabled: true, id: !!java.util.UUID '136bed9a-17c5-3edc-b1e7-30065052e859',
-  severity: BLOCKER}
-- !!com.datical.liquibase.ext.checks.config.model.BasicRule {enabled: false, id: !!java.util.UUID '892b5881-6d02-3846-bdf0-c8538e7b013f',
+- !!com.datical.liquibase.ext.checks.config.model.BasicRule {enabled: true, id: !!java.util.UUID 'd517b518-8a6f-3084-a5be-97e7d89c6860',
   severity: INFO}
 - !!com.datical.liquibase.ext.checks.config.model.DynamicRule
   description: Disallow Oracle reserved keywords from being used in database object
@@ -180,16 +190,6 @@ rules:
   parentRuleId: null
   severity: INFO
   shortName: PostgresNonReservedKeywords
-- !!com.datical.liquibase.ext.checks.config.model.BasicRule {enabled: true, id: !!java.util.UUID 'a85a72fd-9d93-33cd-bbdb-59f21538af9d',
-  severity: BLOCKER}
-- !!com.datical.liquibase.ext.checks.config.model.BasicRule {enabled: true, id: !!java.util.UUID 'd517b518-8a6f-3084-a5be-97e7d89c6860',
-  severity: INFO}
-- !!com.datical.liquibase.ext.checks.config.model.BasicRule {enabled: false, id: !!java.util.UUID '00da80be-8adf-3c05-9380-b2538ae3015a',
-  severity: INFO}
-- !!com.datical.liquibase.ext.checks.config.model.BasicRule {enabled: false, id: !!java.util.UUID 'e56b7a4a-5953-3be3-96d2-0814eb8e7a02',
-  severity: INFO}
-- !!com.datical.liquibase.ext.checks.config.model.BasicRule {enabled: false, id: !!java.util.UUID '517fcf2f-769c-3916-af1c-4c6aeef37914',
-  severity: INFO}
 - !!com.datical.liquibase.ext.checks.config.model.DynamicRule
   description: This check warns when a create table action doesn't also include a
     primary key.
@@ -202,7 +202,7 @@ rules:
   parentRuleId: null
   severity: INFO
   shortName: PrimaryKeyOnCreateTable
-- !!com.datical.liquibase.ext.checks.config.model.BasicRule {enabled: true, id: !!java.util.UUID 'f9a9e270-09b1-3a4c-90b1-e3ae1de98d77',
+- !!com.datical.liquibase.ext.checks.config.model.BasicRule {enabled: false, id: !!java.util.UUID 'f9a9e270-09b1-3a4c-90b1-e3ae1de98d77',
   severity: INFO}
 - !!com.datical.liquibase.ext.checks.config.model.DynamicRule
   description: This check triggers when specific user-supplied patterns are found
