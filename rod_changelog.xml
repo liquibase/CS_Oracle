@@ -212,9 +212,9 @@
                                  referencedColumnNames="N-NUMBER"
                                  referencedTableSchemaName="SALES"/>
         <rollback>
-            ALTER TABLE RESERVED DROP CONSTRAINT "SALES".fk_deregistered_n;
-            ALTER TABLE RESERVED DROP CONSTRAINT "SALES".fk_engine_code;
-            ALTER TABLE RESERVED DROP CONSTRAINT "SALES".fk_aircraft_code;
+            ALTER TABLE SALES.RESERVED DROP CONSTRAINT "SALES".fk_deregistered_n;
+            ALTER TABLE SALES.RESERVED DROP CONSTRAINT "SALES".fk_engine_code;
+            ALTER TABLE SALES.RESERVED DROP CONSTRAINT "SALES".fk_aircraft_code;
         </rollback>
     </changeSet>
     <!-- SUPPLEMENTAL PHOTOS TABLE -->
