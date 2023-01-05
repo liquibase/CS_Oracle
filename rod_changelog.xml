@@ -213,8 +213,8 @@
                                  referencedTableSchemaName="SALES"/>
         <rollback>
             ALTER TABLE SALES.RESERVED DROP CONSTRAINT fk_deregistered_n;
-            ALTER TABLE SALES.RESERVED DROP CONSTRAINT fk_engine_code;
-            ALTER TABLE SALES.RESERVED DROP CONSTRAINT fk_aircraft_code;
+            ALTER TABLE SALES.MASTER DROP CONSTRAINT fk_engine_code;
+            ALTER TABLE SALES.MASTER DROP CONSTRAINT fk_aircraft_code;
         </rollback>
     </changeSet>
     <!-- SUPPLEMENTAL PHOTOS TABLE -->
