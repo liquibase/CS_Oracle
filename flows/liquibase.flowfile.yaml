@@ -1,0 +1,47 @@
+##########           LIQUIBASE FLOWFILE                ##########
+##########  learn more http://docs.liquibase.com/flow  ##########
+
+## Note: Any command which fails in any stage below result in the command stopping, and endStage being run.
+## A flow file can have one or more stages, each with multiple "actions", 
+## or your flow file can have multiple stages with fewer actions in each stage.
+stages:
+
+  ## Use this stage to baseline a new database environment. 
+  ## Adds a row to the DATABASECHANGELOG table without deploying the change.
+  # Baseline:
+    # actions:
+      # - type: liquibase
+        # command: changelog-sync
+
+  ## Use this stage for your general deployments. 
+  Default:        
+    actions:
+      #
+      # Check status
+      #
+      - type: liquibase
+        command: status
+        cmdArgs: { status: "verbose" }
+        
+      #
+      # Policy Checks for changelog
+      #
+      - type: liquibase
+        command: checks run
+        cmdArgs: {checks-scope: changelog, changeset-filter: pending}
+
+      #
+      # Run the update
+      #
+      - type: liquibase
+        command: update
+
+
+## The endStage ALWAYS RUNS. 
+## So put actions here which you desire to perform whether previous stages' actions succeed or fail.
+## If you do not want any actions to ALWAYS RUN, simply delete the endStage from your flow file.
+
+endStage:
+  actions:
+    - type: liquibase
+      command: history
