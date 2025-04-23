@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+		http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+    <!-- Contains the records of all U.S.
+           Civil Aircraft maintained by the FAA, Civil Aviation Registry, Aircraft
+           Registration Branch, AFS-750
+           Schema at: https://www.faa.gov/sites/faa.gov/files/licenses_certificates/aircraft_certification/ \
+               aircraft_registry/releasable_aircraft_download/ardata.pdf
+    -->
+    <!-- AIRCRAFT REGISTRATION MASTER TABLE -->
+    <changeSet  id="1"  author="rbowser">
+        <createTable  tableName="MASTER" schemaName="SALES">
+            <column  name="N-NUMBER"  type="varchar(5)">
+                <constraints  primaryKey="true"  nullable="false"/>
+            </column>
+            <column name="SERIAL_NUMBER" type="VARCHAR(30)"/>
+            <column name="MFR_MDL_CODE" type="VARCHAR(7)"/>
+            <column name="ENG_MFR_MDL" type="VARCHAR(5)"/>
+            <column name="YEAR_MFR" type="SMALLINT"/>
+            <column name="TYPE_REGISTRANT" type="VARCHAR(1)"/>
+            <column name="NAME" type="VARCHAR(50)"/>
+            <column name="STREET" type="VARCHAR(33)"/>
+            <column name="STREET2" type="VARCHAR(33)"/>
+            <column name="CITY" type="VARCHAR(18)"/>
+            <column name="STATE" type="VARCHAR(2)"/>
+            <column name="ZIP_CODE" type="VARCHAR(10)"/>
+            <column name="REGION" type="VARCHAR(1)"/>
+            <column name="COUNTY" type="VARCHAR(3)"/>
+            <column name="COUNTRY" type="VARCHAR(2)"/>
+            <column name="LAST_ACTION_DATE" type="DATE"/>
+            <column name="CERT_ISSUE_DATE" type="DATE"/>
+            <column name="CERTIFICATION" type=" VARCHAR(11)"/>
+            <column name="TYPE_AIRCRAFT" type="VARCHAR(1)"/>
+            <column name="TYPE_ENGINE" type="VARCHAR(2)"/>
+            <column name="STATUS_CODE" type="VARCHAR(2)"/>
+            <column name="MODE_S_CODE" type="VARCHAR(8)"/>
+            <column name="FRACT_OWNER" type="VARCHAR(1)"/>
+            <column name="AIR_WORTH_DATE" type="DATE"/>
+            <column name="OTHER_NAMES_1" type="VARCHAR(50)"/>
+            <column name="OTHER_NAMES_2" type="VARCHAR(50)"/>
+            <column name="OTHER_NAMES_3" type="VARCHAR(50)"/>
+            <column name="OTHER_NAMES_4" type="VARCHAR(50)"/>
+            <column name="OTHER_NAMES_5" type="VARCHAR(50)"/>
+            <column name="EXPIRATION_DATE" type="DATE"/>
+            <column name="UNIQUE_ID" type="VARCHAR(8)"/>
+            <column name="KIT_MFR" type="VARCHAR(30)"/>
+            <column name="KIT_MODEL" type="VARCHAR(20)"/>
+            <column name="MODE_S_CODE_HEX" type="VARCHAR(10)"/>
+        </createTable>
+        <rollback>
+            drop table "SALES".MASTER;
+        </rollback>
+    </changeSet>
+
+    <!-- AIRCRAFT REFERENCE TABLE -->
+    <changeSet  id="2"  author="rbowser">
+        <createTable  tableName="AIRCRAFT" schemaName="SALES">
+            <column name="CODE" type="VARCHAR(7)">
+                <constraints  primaryKey="true"  nullable="false"/>
+            </column>
+            <column name="MFR" type="VARCHAR(30)"/>
+            <column name="MODEL" type="VARCHAR(20)"/>
+            <column name="TYPE-ACFT" type="VARCHAR(1)"/>
+            <column name="TYPE-ENG" type="VARCHAR(2)"/>
+            <column name="AC-CAT" type="VARCHAR(1)"/>
+            <column name="BUILD-CERT-IND" type="BOOLEAN"/>
+            <column name="NO-ENG" type="TINYINT"/>
+            <column name="NO-SEATS" type="INT"/>
+            <column name="AC-WEIGHT" type="VARCHAR(7)"/>
+            <column name="SPEED" type="INT"/>
+        </createTable>
+        <rollback>
+            drop table "SALES".AIRCRAFT;
+        </rollback>
+    </changeSet>
+
+    <!-- ENGINE REFERENCE TABLE -->
+    <changeSet id="3" author="rbowser">
+        <createTable tableName="ENGINE" schemaName="SALES">
+            <column name="CODE" type="VARCHAR(5)">
+                <constraints  primaryKey="true"  nullable="false"/>
+            </column>
+            <column name="MFR" type="VARCHAR(10)"/>
+            <column name="MODEL" type="VARCHAR(13)"/>
+            <column name="TYPE" type="VARCHAR(2)"/>
+            <column name="HORSEPOWER" type="INT"/>
+            <column name="THRUST" type="INT"/>
+        </createTable>
+        <rollback>
+            drop table "SALES".ENGINE;
+        </rollback>
+    </changeSet>
+
+    <!-- AIRCRAFT DOCUMENT INDEX TABLE -->
+    <changeSet id="4" author="rbowser">
+        <createTable tableName="DOCINDEX" schemaName="SALES">
+            <column name="TYPE-COLLATERAL" type ="VARCHAR(1)"/>
+            <column name="COLLATERAL" type ="VARCHAR(37)">
+                <constraints  primaryKey="true"  nullable="false"/>
+            </column>
+            <column name="PARTY" type ="VARCHAR(50)"/>
+            <column name="DOC-ID" type ="VARCHAR(12)"/>
+            <column name="DRDATE" type ="DATE"/>
+            <column name="PROCESSING-DATE" type ="DATE"/>
+            <column name="CORR-DATE" type ="DATE"/>
+            <column name="CORR-ID" type ="VARCHAR(1)"/>
+            <column name="SERIAL-ID" type ="VARCHAR(30)"/>
+        </createTable>
+        <rollback>
+            drop table "SALES".DOCINDEX;
+        </rollback>
+    </changeSet>
+
+    <!-- RESERVE N-NUMBER TABLE -->
+    <changeSet id="5" author="rbowser">
+        <createTable tableName="RESERVED" schemaName="SALES">
+            <column name="N-NUMBER" type="VARCHAR(5)">
+                <constraints  primaryKey="true"  nullable="false"/>
+            </column>
+            <column name="REGISTRANT" type="VARCHAR(50)"/>
+            <column name="STREET" type="VARCHAR(33)"/>
+            <column name="STREET2" type="VARCHAR(33)"/>
+            <column name="CITY" type="VARCHAR(18)"/>
+            <column name="STATE" type="VARCHAR(2)"/>
+            <column name="ZIP CODE" type="VARCHAR(10)"/>
+            <column name="RSV DATE" type="DATE"/>
+            <column name="TR" type="VARCHAR(2)"/>
+            <column name="EXP DATE" type="DATE"/>
+            <column name="N-NUM-CHG" type="VARCHAR(5)"/>
+            <column name="PURGE DATE" type="DATE"/>
+        </createTable>
+        <rollback>
+            drop table "SALES".RESERVED;
+        </rollback>
+    </changeSet>
+
+    <!-- AIRCRAFT DEREGISTERED TABLE -->
+    <changeSet id="6" author="rbowser">
+        <createTable tableName="DEREGISTERED" schemaName="SALES">
+            <column name="N-NUMBER" type="VARCHAR(5)">
+                <constraints  primaryKey="true"  nullable="false"/>
+            </column>
+            <column name="SERIAL-NUMBER" type="VARCHAR(30)"/>
+            <column name="MFR-MDL-CODE" type="VARCHAR(7)"/>
+            <column name="STATUS-CODE" type="VARCHAR(2)"/>
+            <column name="NAME" type="VARCHAR(50)"/>
+            <column name="STREET-MAIL" type="VARCHAR(33)"/>
+            <column name="STREET2-MAIL" type="VARCHAR(33)"/>
+            <column name="CITY-MAIL" type="VARCHAR(18)"/>
+            <column name="STATE-ABBREV-MAIL" type="VARCHAR(2)"/>
+            <column name="ZIP-CODE-MAIL" type="VARCHAR(10)"/>
+            <column name="ENG-MFR-MDL" type="VARCHAR(5)"/>
+            <column name="YEAR-MFR" type="SMALLINT"/>
+            <column name="CERTIFICATION" type="VARCHAR(10)"/>
+            <column name="REGION" type="VARCHAR(1)"/>
+            <column name="COUNTY-MAIL" type="VARCHAR(3)"/>
+            <column name="COUNTRY-MAIL" type="VARCHAR(2)"/>
+            <column name="AIR-WORTH-DATE" type="DATE"/>
+            <column name="CANCEL-DATE" type="DATE"/>
+            <column name="MODE-S-CODE" type="VARCHAR(8)"/>
+            <column name="INDICATOR-GROUP" type="VARCHAR(1)"/>
+            <column name="EXP-COUNTRY" type="VARCHAR(18)"/>
+            <column name="LAST-ACT-DATE" type="DATE"/>
+            <column name="CERT-ISSUE-DATE" type="DATE"/>
+            <column name="STREET-PHYSICAL" type="VARCHAR(33)"/>
+            <column name="STREET2-PHYSICAL" type="VARCHAR(33)"/>
+            <column name="CITY-PHYSICAL" type="VARCHAR(18)"/>
+            <column name="STATE-ABBREV-PHYSICAL" type="VARCHAR(2)"/>
+            <column name="ZIP-CODE-PHYSICAL" type="VARCHAR(10)"/>
+            <column name="COUNTY-PHYSICAL" type="VARCHAR(3)"/>
+            <column name="COUNTRY-PHYSICAL" type="VARCHAR(2)"/>
+            <column name="OTHER-NAMES(1)" type="VARCHAR(50)"/>
+            <column name="OTHER-NAMES(2)" type="VARCHAR(50)"/>
+            <column name="OTHER-NAMES(3)" type="VARCHAR(50)"/>
+            <column name="OTHER-NAMES(4)" type="VARCHAR(50)"/>
+            <column name="OTHER-NAMES(5)" type="VARCHAR(50)"/>
+            <column name="KIT MFR" type="VARCHAR(30)"/>
+            <column name="KIT MODEL" type="VARCHAR(20)"/>
+            <column name="MODE S CODE HEX" type="VARCHAR(10)"/>
+        </createTable>
+        <rollback>
+            drop table "SALES".DEREGISTERED;
+        </rollback>
+    </changeSet>
+    <changeSet id="7" author="rbowser">
+        <addForeignKeyConstraint baseTableName="MASTER"
+                                 baseColumnNames="MFR_MDL_CODE"
+                                 baseTableSchemaName= "SALES"
+                                 constraintName="fk_aircraft_code"
+                                 referencedTableName="AIRCRAFT"
+                                 referencedColumnNames="CODE"
+                                 referencedTableSchemaName="SALES"/>
+        <addForeignKeyConstraint baseTableName="MASTER"
+                                 baseColumnNames="ENG_MFR_MDL"
+                                 baseTableSchemaName= "SALES"
+                                 constraintName="fk_engine_code"
+                                 referencedTableName="ENGINE"
+                                 referencedColumnNames="CODE"
+                                 referencedTableSchemaName="SALES"/>
+        <addForeignKeyConstraint baseTableName="RESERVED"
+                                 baseColumnNames="N-NUM-CHG"
+                                 baseTableSchemaName= "SALES"
+                                 constraintName="fk_deregistered_n"
+                                 referencedTableName="DEREGISTERED"
+                                 referencedColumnNames="N-NUMBER"
+                                 referencedTableSchemaName="SALES"/>
+        <rollback>
+            ALTER TABLE SALES.RESERVED DROP CONSTRAINT fk_deregistered_n;
+            ALTER TABLE SALES.MASTER DROP CONSTRAINT fk_engine_code;
+            ALTER TABLE SALES.MASTER DROP CONSTRAINT fk_aircraft_code;
+        </rollback>
+    </changeSet>
+    <!-- SUPPLEMENTAL PHOTOS TABLE -->
+    <changeSet id="8" author="rbowser">
+        <createTable tableName="PHOTO" schemaName="SALES">
+            <column name="PHOTO_URL" type ="VARCHAR(2048)"/>
+        </createTable>
+        <rollback>
+            drop table "SALES".PHOTO;
+        </rollback>
+    </changeSet>
+    <!-- SUPPLEMENTAL PHOTOS TABLE -->
+    <changeSet id="9" author="rbowser">
+        <createTable tableName="SPOTTER_LOG" schemaName="SALES">
+            <column name="EMAIL" type ="VARCHAR(2048)">
+                <constraints  primaryKey="true"  nullable="false"/>
+            </column>
+            <column  name="N-NUMBER"  type="varchar(5)"/>
+            <column name="MODE_S_CODE_HEX" type="VARCHAR(10)">
+                <constraints  nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            drop table "SALES".SPOTTER_LOG;
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
