@@ -1,1 +1,3 @@
-#liquibase.properties
+liquibase.properties
+logs/
+reports/
