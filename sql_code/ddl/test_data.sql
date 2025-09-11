@@ -13,7 +13,7 @@ create table table1 (
 --rollback drop table table1
 
 --changeset adeel:table2
-create table dbo.TEMP_table2 (
+create table TEMP_table2 (
    id int,
    name varchar(50) not null,
    address1 varchar(50),
@@ -22,7 +22,7 @@ create table dbo.TEMP_table2 (
    CONSTRAINT "xpk_table1" PRIMARY KEY (id),
    CONSTRAINT "xak_table1" UNIQUE (id,name)
 )
---rollback drop table dbo.TEMP_table2
+--rollback drop table TEMP_table2
 
 --changeset adeel:table3
 create table SWPRC_blah (
@@ -46,13 +46,13 @@ CREATE SEQUENCE employee_id_seq
 --rollback drop sequence employee_id_seq
 
 --changeset adeel:sequence2
-CREATE SEQUENCE dbo.TEMP_employee_id_seq
+CREATE SEQUENCE TEMP_employee_id_seq
   START WITH 1001
   INCREMENT BY 1
   MAXVALUE 99999
   NOCYCLE
   CACHE 50;
---rollback drop sequence dbo.TEMP_employee_id_seq
+--rollback drop sequence TEMP_employee_id_seq
 
 --changeset customer:test1_bad
 CREATE TABLE "PRICING"."SWPRX_BLAH" 
