@@ -41,11 +41,11 @@ env:
 
   # Liquibase schema: Specified to allow flexibility in storage of Liquibase Change Tracking Tables
   # See https://docs.liquibase.com/parameters/liquibase-schema-name.html
-  LIQUIBASE_LIQUIBASE_SCHEMA_NAME: gha
+  LIQUIBASE_LIQUIBASE_SCHEMA_NAME: MUREX
   
   # Default schema: Specify schema for all changes
-  LIQUIBASE_COMMAND_DEFAULT_SCHEMA_NAME: gha
-  LIQUIBASE_COMMAND_REFERENCE_DEFAULT_SCHEMA_NAME: gha
+  LIQUIBASE_COMMAND_DEFAULT_SCHEMA_NAME: MUREX
+  LIQUIBASE_COMMAND_REFERENCE_DEFAULT_SCHEMA_NAME: MUREX
 
   # Search path (See https://docs.liquibase.com/concepts/changelogs/how-liquibase-finds-files.html)
   LIQUIBASE_SEARCH_PATH: flows, checks, changelogs
@@ -64,7 +64,7 @@ env:
   LIQUIBASE_LOG_FORMAT: JSON_PRETTY
   LIQUIBASE_LOG_FILE: logs/log.json
   
-  LB_SCHEMAS: "Pricing"
+  LB_SCHEMAS: "MUREX"
 
 jobs:
   #########################################################################
