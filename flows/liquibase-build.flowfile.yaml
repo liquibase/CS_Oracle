@@ -84,12 +84,7 @@ endStage:
     - type: liquibase
       command: history
       
-    # - type: liquibase
-      # command: snapshot
-      # cmdArgs: { snapshot-format: json, schemas: "${SCHEMAS}", snapshot-filters: "column,table"}
-      # globalArgs: { output-file: 'snapshots/${ENV}-snapshot.json' }
-
     - type: liquibase
       command: snapshot
-      cmdArgs: { snapshot-format: json, schemas: "${SCHEMAS}"}
+      cmdArgs: { snapshot-format: json, schemas: "${SCHEMAS}", snapshot-filters: "column,table"}
       globalArgs: { output-file: 'snapshots/${ENV}-snapshot.json' }

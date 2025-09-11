@@ -71,6 +71,8 @@ env:
   
   LB_SCHEMAS: "MUREX"
   LB_CHECK_DRIFT: ${{ github.event.inputs.check_drift }}
+  LIQUIBASE_DBCLHISTORY_ENABLED: true
+  LIQUIBASE_COMMAND_CHECKS_RUN_CHECKS_SCRIPTS_ENABLED: true
 
 jobs:
   #########################################################################
