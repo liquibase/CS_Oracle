@@ -57,7 +57,7 @@ env:
   LIQUIBASE_SEARCH_PATH: flows, checks, changelogs, snapshots
   
   # The database changelog. See https://docs.liquibase.com/concepts/changelogs/working-with-changelogs.html
-  LIQUIBASE_COMMAND_CHANGELOG_FILE: changelog.xml
+  LIQUIBASE_COMMAND_CHANGELOG_FILE: changelog.yml
   
   ENVIRONMENT: ${{ inputs.environment }}
   LB_TAG: ${{ github.event.inputs.lb_tag || github.ref_name }}
