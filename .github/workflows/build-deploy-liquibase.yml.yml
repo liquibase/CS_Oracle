@@ -1,6 +1,6 @@
 #############################################################################
 #  GitHub Action to perform a build on the first database, eg. DEV,
-#  using Liquibase Pro, Flows, Policy checks, and S3.
+#  using Liquibase Pro, Flows, Policy checks, and other services.
 ##############################################################################
 name: 'Build Deploy Liquibase'
 run-name: ${{ inputs.environment}} build of current repo by ${{ github.actor }}
@@ -57,7 +57,6 @@ env:
   BRANCH: ${{ github.ref_name }}
   LB_TAG: ${{ github.event.inputs.lb_tag || github.ref_name }}
 
-  #LIQUIBASE_REPORT_PATH: s3://${{ secrets.AWS_S3_BUCKET }}/gha_reports
   LIQUIBASE_REPORT_PATH: reports
   
   # Values: OFF, SEVERE, WARNING, INFO, FINE
@@ -82,11 +81,11 @@ jobs:
       uses: ./.github/workflows/setup-liquibase
 
     - name: Liquibase Build Flow
-      run: liquibase flow --classpath=liquibase-aws-extension.jar --flow-file=liquibase-build.flowfile.yaml
+      run: liquibase flow --flow-file=liquibase-build.flowfile.yaml
 
     - name: Upload Reports Artifact
       if: always()
       uses: ./.github/workflows/upload-reports
       with:
         job-type: deploy
-        upload-s3: true
+        upload-other: false

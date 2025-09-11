@@ -16,8 +16,3 @@ runs:
       with:
         version: '4.33.0'
         edition: 'pro'
-
-    - name: Download AWS Extension
-      shell: bash
-      run: |
-        wget -O liquibase-aws-extension.jar https://repo1.maven.org/maven2/org/liquibase/ext/liquibase-aws-extension/1.0.1/liquibase-aws-extension-1.0.1.jar
