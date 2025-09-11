@@ -71,6 +71,7 @@ env:
   LIQUIBASE_LOG_FILE: logs/log.json
   
   LB_SCHEMAS: "MUREX"
+  LB_CHECK_DRIFT: ${{ github.event.inputs.check_drift }}
 
 jobs:
   #########################################################################
