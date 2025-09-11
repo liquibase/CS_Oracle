@@ -21,7 +21,7 @@ stages:
     # Check if manual updates were made to the environment since last deployment
     actions:
       - type: shell
-        if: "${CHECK_DRIFT} == true && exists("${ENV}-snapshot.json")"
+        if: "${CHECK_DRIFT} == true && exists(${ENV}-snapshot.json)"
         command: liquibase diff --reference-url=offline:oracle?snapshot=${ENV}-snapshot.json --report-name="drift-report-${ENV}.html" --reports-enabled=true --drift-severity=1 --schemas=${SCHEMAS}
 
   Status:
