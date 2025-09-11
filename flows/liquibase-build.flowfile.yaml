@@ -6,6 +6,9 @@
 ## or your flow file can have multiple stages with fewer actions in each stage.
 globalVariables:
   TAG: ${LB_TAG}
+  ENV: ${ENVIRONMENT}
+  CHECK_DRIFT: ${LB_CHECK_DRIFT}
+  SCHEMAS: ${LB_SCHEMAS}  
   
 stages:
   Validation:

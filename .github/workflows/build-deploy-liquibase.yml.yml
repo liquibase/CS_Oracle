@@ -22,6 +22,12 @@ on:
         type: string
         required: false
 
+      check_drift:
+        description: 'Check for Drift Detection'
+        type: boolean
+        required: true
+        default: true
+
 ####################################################################
 #  Set up the environment
 #####################################################################
