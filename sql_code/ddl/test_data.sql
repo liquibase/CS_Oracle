@@ -211,3 +211,70 @@ CREATE SEQUENCE "TEMP_BLAH"
 
 --changeset asmith:bad_index
 CREATE INDEX index ON table (new_hash_column);
+
+--changeset asmith:SWPRC_t_table_01
+CREATE TABLE SWPRC_t_table_01 (
+    id NUMBER PRIMARY KEY,
+    name VARCHAR2(10),
+    -- Audit columns with timestamps
+    insert_date TIMESTAMP NOT NULL,
+    insert_user VARCHAR2(100) NOT NULL,
+    update_date TIMESTAMP NOT NULL,
+    update_user VARCHAR2(100) NOT NULL
+);
+--rollback drop table SWPRC_t_table_01
+
+--changeset asmith:SWPRC_t_table_02
+CREATE TABLE SWPRC_t_table_02 (
+    id NUMBER PRIMARY KEY,
+    name VARCHAR2(10),
+    -- Audit columns with timestamps
+    insert_date TIMESTAMP NOT NULL,
+    update_date TIMESTAMP NOT NULL,
+    update_user VARCHAR2(100) NOT NULL
+);
+--rollback drop table SWPRC_t_table_02
+
+--changeset asmith:SWPRC_t_table_03
+CREATE TABLE SWPRC_t_table_03 (
+    id NUMBER PRIMARY KEY,
+    name VARCHAR2(10),
+    -- Audit columns with timestamps
+    insert_date TIMESTAMP NOT NULL,
+    insert_user VARCHAR2(100) NOT NULL,
+    update_date TIMESTAMP,
+    update_user VARCHAR2(100) NOT NULL
+);
+--rollback drop table SWPRC_t_table_03
+
+--changeset asmith:test_function_bad
+CREATE FUNCTION IF NOT EXISTS get_bal(acc_no IN NUMBER) 
+   RETURN NUMBER 
+   IS acc_bal NUMBER(11,2);
+   BEGIN 
+      SELECT order_total 
+      INTO acc_bal 
+      FROM orders 
+      WHERE customer_id = acc_no; 
+      RETURN(acc_bal); 
+    END;
+/
+--rollback DROP FUNCTION get_bal
+
+--changeset asmith:test_procedure_good
+CREATE PACKAGE IF NOT EXISTS emp_mgmt AS 
+   FUNCTION hire (last_name VARCHAR2, job_id VARCHAR2, 
+      manager_id NUMBER, salary NUMBER, 
+      commission_pct NUMBER, department_id NUMBER) 
+      RETURN NUMBER; 
+   FUNCTION create_dept(department_id NUMBER, location_id NUMBER) 
+      RETURN NUMBER; 
+   PROCEDURE remove_emp(employee_id NUMBER); 
+   PROCEDURE remove_dept(department_id NUMBER); 
+   PROCEDURE increase_sal(employee_id NUMBER, salary_incr NUMBER); 
+   PROCEDURE increase_comm(employee_id NUMBER, comm_incr NUMBER); 
+   no_comm EXCEPTION; 
+   no_sal EXCEPTION; 
+END emp_mgmt;
+/
+--rollback DROP PACKAGE emp_mgmt

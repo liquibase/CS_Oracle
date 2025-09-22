@@ -4,3 +4,4 @@ snapshots/
 liquibase.properties
 .liquibase
 data/
+generatechangelogs/

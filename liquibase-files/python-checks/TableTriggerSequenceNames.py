@@ -74,7 +74,7 @@ for change in changes:
             table_name = table.replace("'", "").replace('"', "").split('.')[-1]
             startsWithNamePattern = starts_with_name_pattern(table_name)
             
-            print ("Table name: " + table_name + ", " + str(startsWithNamePattern))
+            # print ("Table name: " + table_name + ", " + str(startsWithNamePattern))
 
             if not startsWithNamePattern:
                 liquibase_status.fired = True
@@ -94,7 +94,7 @@ for change in changes:
             trigger_name = trigger.replace("'", "").replace('"', "").split('.')[-1]
             startsWithNamePattern = starts_with_name_pattern(trigger_name)
             
-            print ("Trigger name: " + trigger_name + ", " + str(startsWithNamePattern))
+            # print ("Trigger name: " + trigger_name + ", " + str(startsWithNamePattern))
 
             if not startsWithNamePattern:
                 liquibase_status.fired = True
@@ -114,7 +114,7 @@ for change in changes:
             sequence_name = sequence.replace("'", "").replace('"', "").split('.')[-1]
             startsWithNamePattern = starts_with_name_pattern(sequence_name)
             
-            print ("Sequence name: " + sequence_name + ", " + str(startsWithNamePattern))
+            # print ("Sequence name: " + sequence_name + ", " + str(startsWithNamePattern))
 
             if not startsWithNamePattern:
                 liquibase_status.fired = True

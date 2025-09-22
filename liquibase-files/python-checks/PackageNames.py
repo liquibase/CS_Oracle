@@ -11,7 +11,7 @@ import re
 import sys
 import liquibase_utilities
 
-words_to_filter = ['OR', 'REPLACE']
+words_to_filter = ['OR', 'REPLACE', 'IF', 'NOT', 'EXISTS']
 
 def starts_with_name_pattern(input_string):
     """
@@ -74,7 +74,7 @@ for change in changes:
             package_name = package.replace("'", "").replace('"', "").split('.')[-1]
             startsWithNamePattern = starts_with_name_pattern(package_name)
             
-            print ("Package name: " + package_name + ", " + str(startsWithNamePattern))
+            # print ("Package name: " + package_name + ", " + str(startsWithNamePattern))
 
             if not startsWithNamePattern:
                 liquibase_status.fired = True

@@ -96,7 +96,7 @@ for change in changes:
             startsWithNamePattern = starts_with_name_pattern(m_view_name)
             endsWithNamePattern = ends_with_name_pattern(m_view_name, "MV")
          
-            print ("Materialized View name: " + m_view_name + ", " + str(startsWithNamePattern) + ", " + str(endsWithNamePattern))
+            # print ("Materialized View name: " + m_view_name + ", " + str(startsWithNamePattern) + ", " + str(endsWithNamePattern))
 
             if not startsWithNamePattern:
                 liquibase_status.fired = True
@@ -121,7 +121,7 @@ for change in changes:
             startsWithNamePattern = starts_with_name_pattern(view_name)
             endsWithNamePattern = ends_with_name_pattern(view_name, "V")
          
-            print ("View name: " + view_name + ", " + str(startsWithNamePattern) + ", " + str(endsWithNamePattern))
+            # print ("View name: " + view_name + ", " + str(startsWithNamePattern) + ", " + str(endsWithNamePattern))
 
             if not startsWithNamePattern:
                 liquibase_status.fired = True

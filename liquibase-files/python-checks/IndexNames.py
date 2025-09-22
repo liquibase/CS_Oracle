@@ -75,7 +75,7 @@ for change in changes:
             index_name = index.replace("'", "").replace('"', "").split('.')[-1]
             endsWithNamePattern = ends_with_name_pattern(index_name)
          
-            print ("Index name: " + index_name + ", " + str(endsWithNamePattern))
+            # print ("Index name: " + index_name + ", " + str(endsWithNamePattern))
                 
             if not endsWithNamePattern:
                 liquibase_status.fired = True
