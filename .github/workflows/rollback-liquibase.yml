@@ -58,7 +58,7 @@ env:
   LIQUIBASE_COMMAND_CHANGELOG_FILE: db.changelog.xml
 
   ENVIRONMENT: ${{ inputs.environment }}
-  LB_TAG: ${{ input.lb_tag }}
+  LB_TAG: ${{ inputs.lb_tag }}
 
   LIQUIBASE_REPORT_PATH: reports
   # Values: OFF, SEVERE, WARNING, INFO, FINE
