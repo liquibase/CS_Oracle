@@ -20,15 +20,16 @@ stages:
     actions:
     - type: liquibase
       command: rollback-sql
+      cmdArgs: {tag: "${LB_TAG}"}
 
   Rollback:
     actions:
 
     # For other environments, do not test the rollbacks
     - type: liquibase
-      if: "${ENV} != dev"
-      command: update
-      globalArgs: { reports-name: "${ENV}-deploy-report.html" }
+      command: rollback
+      cmdArgs: {tag: "${LB_TAG}"}
+      globalArgs: { reports-name: "${ENV}-rollback-report.html" }
   
   ## The endStage ALWAYS RUNS. 
   ## So put actions here which you desire to perform whether previous stages' actions succeed or fail.
