@@ -1,6 +1,0 @@
-databaseChangeLog:
-
-  - includeAll:
-      path: db_changes
-      relativeToChangelogFile: true
-      errorIfMissingOrEmpty: false

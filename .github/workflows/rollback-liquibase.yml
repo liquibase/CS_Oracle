@@ -45,10 +45,10 @@ env:
 
   # Liquibase schema: Specified to allow flexibility in storage of Liquibase Change Tracking Tables
   # See https://docs.liquibase.com/parameters/liquibase-schema-name.html
-  LIQUIBASE_LIQUIBASE_SCHEMA_NAME: "MUREX"
+  LIQUIBASE_LIQUIBASE_SCHEMA_NAME: Pricing
 
   # Default schema: Specify schema for all changes
-  LIQUIBASE_COMMAND_DEFAULT_SCHEMA_NAME: "MUREX"
+  LIQUIBASE_COMMAND_DEFAULT_SCHEMA_NAME: Pricing
   # LIQUIBASE_COMMAND_REFERENCE_DEFAULT_SCHEMA_NAME: Sales
 
   # Search path (See https://docs.liquibase.com/concepts/changelogs/how-liquibase-finds-files.html)
@@ -67,7 +67,7 @@ env:
   LIQUIBASE_LOG_FORMAT: JSON_PRETTY
   LIQUIBASE_LOG_FILE: logs/log.json
 
-  LB_SCHEMAS: "MUREX"
+  LB_SCHEMAS: "Pricing"
   LIQUIBASE_DBCLHISTORY_ENABLED: true
 
 jobs:
@@ -76,13 +76,15 @@ jobs:
   #########################################################################
 
   database-build:
-    runs-on: [self-hosted]
+    runs-on: sw-gh-ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
+    - uses: sherwin-williams-co/sw-certificate-chain-action@v2
 
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
+        token: ${{ secrets.SA_DIGITALIT_DSS_TOKEN }}
 
     # Required for self-hosted runners
     - uses: actions/setup-java@v4
@@ -98,3 +100,30 @@ jobs:
     - name: Liquibase Rollback Flow
       run: |
         liquibase flow --flow-file=liquibase-rollback.flowfile.yaml
+
+    - uses: sherwin-williams-co/sw-generic-artifact-upload-artifactory-composite-action@main
+      with:
+        artifact_name: ${{ inputs.environment }}-snapshot.json
+        artifactory_secret: ${{ secrets.JF_ARTIFACTORY_TOKEN }}
+        artifact_path: ${{ github.workspace }}/snapshots
+        artifactory_repo_name: 'sherwin-generic-local'
+        artifactory_repo_subpath: 'cpm/pricingdb/snapshots'
+
+    - name: Send mail
+      if: always()
+      uses: dawidd6/action-send-mail@v3
+      with:
+        connection_url: "smtp:"
+        server_address: smtp.sherwin.com
+        server_port: 25
+        secure: false
+        subject: Github Actions job result
+        to: alem.fredy@sherwin.com
+        # Required sender full name (address can be skipped):
+        from: tag-cpm-pricing@no-reply.sherwin.com # <user@example.com>
+        # Optional plain body:
+        body: |
+          Build job of ${{github.repository}} completed successfully!
+          This is a second line :)
+        attachments: ./reports/*.html
+        ignore_cert: true
