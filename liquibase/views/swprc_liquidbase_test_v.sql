@@ -1,48 +1,6 @@
-CREATE OR REPLACE FORCE EDITIONABLE VIEW PRICING.SWPRC_Liquidbase_test_V  AS 
+CREATE OR REPLACE VIEW Liquibase_test_V  AS 
   SELECT
-        SS.SCHEDULE_ID,
-        SS.KV_SCHEDULE_TYPE,
-        SS.APPROVAL_ID,
-        SS.DESCRIPTION,
-        GS.EFFECTIVE_DATE,
-        GS.EXPIRATION_DATE,
-        GS.GENERIC_SCHEDULE_ID,
-        GS.SALES_NUMBER,
-        GS.CATEGORY,
-        GS.SIZE_CODE,
-        GS.STORE_NUMBER,
-        GS.DISTRICT,
-        GS.AREA,
-        GS.DIVISION,
-        GS.KV_COUNTRY,
-        PD.PRICE AS LIST_PRICE,
-        --( 0.25 * PD.PRICE ) AS FLOOR_PRICE,
-        PRICING_COMMON_MISC_PROC.RETURN_HARD_FLOOR_RULE (GS.CATEGORY,GS.SALES_NUMBER,GS.SIZE_CODE)* PD.PRICE AS FLOOR_PRICE,
-        PD.KV_PRICE_LEVEL,
-        PD.KV_CURRENCY,
-        CASE
-            WHEN GS.STORE_NUMBER IS NOT NULL THEN
-                'A'
-            WHEN GS.DISTRICT IS NOT NULL THEN
-                'B'
-            WHEN GS.AREA IS NOT NULL THEN
-                'C'
-            WHEN GS.DIVISION IS NOT NULL THEN
-                'D'
-            ELSE
-                'Z'
-        END PRECEDENCE,
-        PD.PRICE_DETAIL_ID,
-        PD.COMMENTS
+        SS.ID,
+        SS.NAME
       FROM
-        SWPRC_SCHEDULE           SS,
-        SWPRC_GENERIC_SCHEDULE   GS,
-        SWPRC_PRICE_DETAIL       PD
-     WHERE
-        PD.SCHEDULE_ID = SS.SCHEDULE_ID
-           AND GS.SCHEDULE_ID = SS.SCHEDULE_ID
-           AND PD.GENERIC_SCHEDULE_ID = GS.GENERIC_SCHEDULE_ID -- added by Nirajan
-           AND SS.KV_SCHEDULE_TYPE IN (
-            'LIST',
-            'PCG_LIST'
-        )
+        TABLE10           SS
