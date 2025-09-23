@@ -59,7 +59,7 @@ env:
 
   ENVIRONMENT: ${{ inputs.environment }}
   BRANCH: ${{ github.ref_name }}
-  LB_TAG: ${{ github.event.inputs.lb_tag || github.ref_name }}
+  LB_TAG: ${{ inputs.lb_tag }}
 
   LIQUIBASE_REPORT_PATH: reports
   # Values: OFF, SEVERE, WARNING, INFO, FINE
