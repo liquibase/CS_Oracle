@@ -1,7 +1,7 @@
 #############################################################################
 #  GitHub Action to perform a rollback for selected environment.
 ##############################################################################
-name: 'Rollback Liquibase'
+name: 'Rollback Liquibase - LBP'
 permissions:
   contents: write  
   actions: read
