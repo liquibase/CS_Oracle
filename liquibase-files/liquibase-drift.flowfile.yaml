@@ -1,0 +1,13 @@
+##########           LIQUIBASE DRIFT FLOWFILE                ##########
+
+globalVariables:
+  ENV: ${ENVIRONMENT}
+  SCHEMAS: ${LB_SCHEMAS}
+
+stages:
+
+  Drift-Detection:
+    # Check if manual updates were made to the environment since last deployment
+    actions:
+    - type: shell
+      command: liquibase diff --reference-url=offline:oracle?snapshot=${ENV}-snapshot.json --report-name="drift-report-${ENV}.html" --reports-enabled=true --drift-severity=1 --schemas=${SCHEMAS} --include-relations-for-computed-columns=true
