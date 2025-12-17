@@ -1,0 +1,91 @@
+##########           LIQUIBASE FLOWFILE                ##########
+##########  learn more http://docs.liquibase.com/flow  ##########
+
+## Note: Any command which fails in any stage below result in the command stopping, and endStage being run.
+## A flow file can have one or more stages, each with multiple "actions", 
+## or your flow file can have multiple stages with fewer actions in each stage.
+globalVariables:
+  TAG: ${LB_TAG:-"0.0"}
+  ENV: ${ENVIRONMENT:-"DEV"}
+  CHECK_DRIFT: ${LB_CHECK_DRIFT:-"true"}
+  SCHEMAS: ${LB_SCHEMAS:-"CAPS"}  
+#  SCHEMAS: "CAPS"
+  
+stages:
+
+  Validation:
+    actions: 
+      - type: liquibase
+        command: validate
+
+  Drift-Detection:
+    # Check if manual updates were made to the environment since last deployment
+    actions:
+      - type: shell
+        #if: "${CHECK_DRIFT} == true && exists('snapshots/${ENV}-snapshot.json')"
+        command: liquibase --include-relations-for-computed-columns=true diff --reference-url=offline:oracle?snapshot=${ENV}-snapshot.json --report-name="drift-report-${ENV}.html" --reports-enabled=true --drift-severity=0 --schemas=${SCHEMAS} --diff-types="catalogs, checkconstraints, columns, databasepackage, databasepackagebody, foreignkeys, functions, indexes, primarykeys, storedprocedures, tables, triggers, uniqueconstraints, views"
+
+  Status:
+    actions:
+      - type: liquibase
+        command: status
+        cmdArgs: {verbose: true}
+        
+#      - type: control
+#        if: "status.changesetCount == 0"
+#        command: exit
+#        cmdArgs: {exitCode: 0, exitMessage: "Exiting with an error status of 0 because the database is up-to-date"}
+
+  Checks-Changelog:
+    actions:
+      - type: liquibase
+        command: checks run
+        cmdArgs: {checks-scope: changelog, changeset-filter: "PENDING"}
+        globalArgs: { reports-name: "checks-report-build-changelog.html"}
+
+  Update-SQL:
+    actions:
+      - type: liquibase
+        command: update-sql
+
+  Tag:
+    actions:
+      - type: liquibase
+        command: tag
+        cmdArgs: {tag: "${TAG}"}
+
+  Update:
+    actions:
+    
+      # For first environment, test the rollbacks
+      - type: liquibase
+        if: "${ENV} == DEV"
+        command: update-testing-rollback
+        globalArgs: { reports-name: "build-report.html"}
+        
+      # For other environments, do not test the rollbacks
+      - type: liquibase
+        if: "${ENV} != DEV"
+        command: update
+        globalArgs: { reports-name: "${ENV}-deploy-report.html"}
+
+  Checks-Database:
+    actions:
+      - type: liquibase
+        command: checks run
+        cmdArgs: {checks-scope: database}
+        globalArgs: { reports-name: "checks-report-build-database.html"}
+
+## The endStage ALWAYS RUNS. 
+## So put actions here which you desire to perform whether previous stages' actions succeed or fail.
+## If you do not want any actions to ALWAYS RUN, simply delete the endStage from your flow file.
+
+endStage:
+  actions:
+    - type: liquibase
+      command: history
+      
+    - type: liquibase
+      command: snapshot
+      cmdArgs: { snapshot-format: json, schemas: "${SCHEMAS}"}
+      globalArgs: { output-file: 'snapshots/${ENV}-snapshot.json' }

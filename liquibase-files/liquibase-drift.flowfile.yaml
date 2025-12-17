@@ -10,4 +10,4 @@ stages:
     # Check if manual updates were made to the environment since last deployment
     actions:
     - type: shell
-      command: liquibase diff --reference-url=offline:oracle?snapshot=${ENV}-snapshot.json --report-name="drift-report-${ENV}.html" --reports-enabled=true --drift-severity=1 --schemas=${SCHEMAS} --include-relations-for-computed-columns=true
+      command: liquibase --include-relations-for-computed-columns=true diff --reference-url=offline:oracle?snapshot=${ENV}-snapshot.json --report-name="drift-report-${ENV}.html" --reports-enabled=true --drift-severity=1
