@@ -1,0 +1,5 @@
+-- liquibase formatted sql
+
+-- changeset asmith:01
+CREATE TABLE AUTOMOBILES01 (CARID NUMBER(*, 0), MAKE VARCHAR2(255 BYTE), MODEL VARCHAR2(255 BYTE));
+
