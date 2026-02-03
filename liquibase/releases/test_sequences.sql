@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset amy_smith:seq_01
+--changeset amy_smith:seq_01 ignore:true
 CREATE SEQUENCE CAPS.my_sequence_01
     START WITH     1
     INCREMENT BY   1
@@ -10,7 +10,7 @@ CREATE SEQUENCE CAPS.my_sequence_01
     NOCYCLE;
 --rollback drop sequence CAPS.my_sequence_01;
 
---changeset amy_smith:view_01 runOnChange:true
+--changeset amy_smith:view_01 runOnChange:true ignore:true
 CREATE OR REPLACE VIEW CAPS.DEALER01_VW AS
 SELECT 
     USER_ID,
