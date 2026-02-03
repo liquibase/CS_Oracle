@@ -5,11 +5,10 @@
 ## A flow file can have one or more stages, each with multiple "actions", 
 ## or your flow file can have multiple stages with fewer actions in each stage.
 globalVariables:
-  TAG: ${LB_TAG:-"0.0"}
-  ENV: ${ENVIRONMENT:-"DEV"}
-  CHECK_DRIFT: ${LB_CHECK_DRIFT:-"true"}
-  SCHEMAS: ${LB_SCHEMAS:-"CAPS"}  
-#  SCHEMAS: "CAPS"
+  TAG: ${LB_TAG}
+  ENV: ${ENVIRONMENT}
+  CHECK_DRIFT: ${LB_CHECK_DRIFT}
+  SCHEMAS: ${LB_SCHEMAS}  
   
 stages:
 
@@ -18,12 +17,12 @@ stages:
       - type: liquibase
         command: validate
 
-  Drift-Detection:
+#  Drift-Detection:
     # Check if manual updates were made to the environment since last deployment
-    actions:
-      - type: shell
-        #if: "${CHECK_DRIFT} == true && exists('snapshots/${ENV}-snapshot.json')"
-        command: liquibase --include-relations-for-computed-columns=true diff --reference-url=offline:oracle?snapshot=${ENV}-snapshot.json --report-name="drift-report-${ENV}.html" --reports-enabled=true --drift-severity=0 --schemas=${SCHEMAS} --diff-types="catalogs, checkconstraints, columns, databasepackage, databasepackagebody, foreignkeys, functions, indexes, primarykeys, storedprocedures, tables, triggers, uniqueconstraints, views"
+#    actions:
+#      - type: shell
+#        if: "${CHECK_DRIFT} == true && exists('snapshots/${ENV}-snapshot.json')"
+#        command: liquibase --include-relations-for-computed-columns=true diff --reference-url=offline:oracle?snapshot=${ENV}-snapshot.json --report-name="drift-report-${ENV}.html" --reports-enabled=true --drift-severity=0 --schemas=${SCHEMAS} --diff-types="catalogs, checkconstraints, columns, databasepackage, databasepackagebody, foreignkeys, functions, indexes, primarykeys, storedprocedures, tables, triggers, uniqueconstraints, views"
 
   Status:
     actions:
@@ -31,10 +30,10 @@ stages:
         command: status
         cmdArgs: {verbose: true}
         
-#      - type: control
-#        if: "status.changesetCount == 0"
-#        command: exit
-#        cmdArgs: {exitCode: 0, exitMessage: "Exiting with an error status of 0 because the database is up-to-date"}
+      - type: control
+        if: "status.changesetCount == 0"
+        command: exit
+        cmdArgs: {exitCode: 0, exitMessage: "Exiting with an error status of 0 because the database is up-to-date"}
 
   Checks-Changelog:
     actions:
