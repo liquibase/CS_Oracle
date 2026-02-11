@@ -12,6 +12,11 @@ globalVariables:
   
 stages:
 
+  Java_Opts_Check:
+    actions:
+      - type: shell
+        command: printenv JAVA_OPTS
+
   Validation:
     actions: 
       - type: liquibase
