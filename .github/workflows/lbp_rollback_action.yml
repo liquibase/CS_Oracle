@@ -61,13 +61,18 @@ env:
   BRANCH: ${{ github.ref_name }}
   LB_TAG: ${{ inputs.lb_tag }}
 
+  # Reports
   LIQUIBASE_REPORT_PATH: reports
+  
   # Values: OFF, SEVERE, WARNING, INFO, FINE
   LIQUIBASE_LOG_LEVEL: INFO
   LIQUIBASE_LOG_FORMAT: JSON_PRETTY
   LIQUIBASE_LOG_FILE: logs/log.json
 
+  # Drift Detection
   LB_SCHEMAS: "MUREX"
+  
+  # History Table
   LIQUIBASE_DBCLHISTORY_ENABLED: true
 
 jobs:

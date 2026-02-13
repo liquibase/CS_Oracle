@@ -62,6 +62,7 @@ env:
   ENVIRONMENT: ${{ inputs.environment }}
   LB_TAG: ${{ github.event.inputs.lb_tag || github.ref_name }}
 
+  # Reports
   LIQUIBASE_REPORT_PATH: reports
   
   # Values: OFF, SEVERE, WARNING, INFO, FINE
@@ -69,10 +70,16 @@ env:
   LIQUIBASE_LOG_FORMAT: JSON_PRETTY
   LIQUIBASE_LOG_FILE: logs/log.json
   
-  LB_SCHEMAS: "MUREX"
+  # Drift Detection
   LB_CHECK_DRIFT: ${{ github.event.inputs.check_drift }}
+  LB_SCHEMAS: "MUREX"
+
+  # History table
   LIQUIBASE_DBCLHISTORY_ENABLED: true
+  
+  # Checks 
   LIQUIBASE_COMMAND_CHECKS_RUN_CHECKS_SCRIPTS_ENABLED: true
+  LIQUIBASE_COMMAND_CHECKS_RUN_AUTO_UPDATE: off
 
 jobs:
   #########################################################################

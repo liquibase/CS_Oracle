@@ -1,6 +1,6 @@
 # .github/workflows/setup-liquibase/action.yml
 name: 'Setup Liquibase Environment'
-description: 'Sets up Java, Liquibase Pro, and AWS extension'
+description: 'Sets up Java and Liquibase Secure'
 
 runs:
   using: 'composite'
@@ -11,8 +11,9 @@ runs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Setup Liquibase Pro
-      uses: liquibase/setup-liquibase@v1
+    - name: Setup Liquibase Secure
+      uses: liquibase/setup-liquibase@v2
       with:
-        version: '4.33.0'
-        edition: 'pro'
+        version: '5.1.0-RC114'
+        edition: 'secure'
+        download-url-base: 'https://repo.liquibase.com/non-releases/secure/{version}/liquibase-secure-{version}.{extension}'
