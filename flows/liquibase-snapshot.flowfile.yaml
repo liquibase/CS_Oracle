@@ -3,7 +3,7 @@
 
 globalVariables:
   ENV: ${ENVIRONMENT}
-  CONTAINER: ${AZURE_CONTAINER}
+  BUCKET: ${AWS_S3_BUCKET}
   SCHEMAS: ${LB_SCHEMAS}
 
 stages:
@@ -11,8 +11,8 @@ stages:
     actions:
       - type: liquibase
         command: snapshot
-        cmdArgs: {  snapshot-format: json, schemas: "${SCHEMAS}", snapshot-filters: "column,foreignkey,index,primarykey,table,uniqueconstraint,view,checkconstraint,trigger"}
-        globalArgs: { output-file: 'az://${CONTAINER}/gh_sqlserver_snapshots/${ENV}-snapshot.json' }
+        cmdArgs: {  snapshot-format: json, schemas: "${SCHEMAS}"}
+        globalArgs: { output-file: 's3://${BUCKET}/oracleSnapshots/${ENV}-snapshot.json' }
         
       - type: shell
-        command: echo 'Snapshot saved to az://${CONTAINER}/gh_sqlserver_snapshots/${ENV}-snapshot.json'
+        command: echo 'Snapshot saved to s3://${BUCKET}/oracleSnapshots/${ENV}-snapshot.json'
