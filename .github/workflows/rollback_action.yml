@@ -1,15 +1,10 @@
 #############################################################################
 #  GitHub Action to perform a rollback for selected environment.
 ##############################################################################
-name: 'Rollback Liquibase - LBP'
-permissions:
-  contents: write  
-  actions: read
-
+name: 'Liquibase Secure Rollback'
 run-name: ${{ inputs.environment}} rollback of current repo by ${{ github.actor }}
 
 on:
-
   workflow_dispatch:
     # Following are the inputs received via the GitHubActions Run workflow dialog
     inputs:
@@ -84,22 +79,11 @@ jobs:
     runs-on: [self-hosted]
     environment: ${{ inputs.environment }}
     steps:
-
     - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-
-    # Required for self-hosted runners
-    - uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '21'
-
-    - uses: liquibase/setup-liquibase@v1
-      with:
-        version: '4.33.0'
-        edition: 'pro'
-
+    
+    - name: Setup Liquibase Environment
+      uses: ./.github/workflows/setup-liquibase
+      
     - name: Liquibase Rollback Flow
       run: |
         liquibase flow --flow-file=liquibase-rollback.flowfile.yaml
