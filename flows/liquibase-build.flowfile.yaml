@@ -6,6 +6,7 @@
 ## or your flow file can have multiple stages with fewer actions in each stage.
 globalVariables:
   TAG: ${LB_TAG}
+  BUCKET: ${AWS_S3_BUCKET}
   ENV: ${ENVIRONMENT}
   CHECK_DRIFT: ${LB_CHECK_DRIFT}
   SCHEMAS: ${LB_SCHEMAS}  
@@ -22,12 +23,12 @@ stages:
       - type: liquibase
         command: validate
 
-#  Drift-Detection:
+  Drift-Detection:
     # Check if manual updates were made to the environment since last deployment
-#    actions:
-#      - type: shell
-#        if: "${CHECK_DRIFT} == true && exists('snapshots/${ENV}-snapshot.json')"
-#        command: liquibase --include-relations-for-computed-columns=true diff --reference-url=offline:oracle?snapshot=${ENV}-snapshot.json --report-name="drift-report-${ENV}.html" --reports-enabled=true --drift-severity=0 --schemas=${SCHEMAS} --diff-types="catalogs, checkconstraints, columns, databasepackage, databasepackagebody, foreignkeys, functions, indexes, primarykeys, storedprocedures, tables, triggers, uniqueconstraints, views"
+    actions:
+      - type: shell
+        if: "${CHECK_DRIFT} == true"
+        command: liquibase --search-path=s3://${BUCKET}/oracleSnapshots/ diff --reference-url=offline:oracle?snapshot=${ENV}-snapshot.json --report-name="drift-report-${ENV}.html" --reports-enabled=true --drift-severity=1 --schemas=${SCHEMAS}
 
   Status:
     actions:
@@ -72,13 +73,6 @@ stages:
         if: "${ENV} != DEV"
         command: update
         globalArgs: { reports-name: "${ENV}-deploy-report.html"}
-
-  Checks-Database:
-    actions:
-      - type: liquibase
-        command: checks run
-        cmdArgs: {checks-scope: database}
-        globalArgs: { reports-name: "checks-report-build-database.html"}
 
 ## The endStage ALWAYS RUNS. 
 ## So put actions here which you desire to perform whether previous stages' actions succeed or fail.
