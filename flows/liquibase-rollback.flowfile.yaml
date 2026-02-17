@@ -7,6 +7,7 @@
 
 globalVariables:
   TAG: ${LB_TAG}
+  BUCKET: ${AWS_S3_BUCKET}
   ENV: ${ENVIRONMENT}
   SCHEMAS: ${LB_SCHEMAS}
 
