@@ -1,8 +1,8 @@
 #############################################################################
 #  GitHub Action to perform a build on the first database, eg. DEV,
-#  using Liquibase Pro, Flows, Policy checks, and other services.
+#  using Liquibase Secure, Flows, Policy checks, and other services.
 ##############################################################################
-name: 'Build Deploy Liquibase'
+name: 'Liquibase Secure Build'
 run-name: ${{ inputs.environment}} build of current repo by ${{ github.actor }}
 
 on:
