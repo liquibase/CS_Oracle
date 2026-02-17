@@ -2,7 +2,7 @@
 #  GitHub Action to perform drift detection using Liquibase Secure.
 #  
 ##############################################################################
-name: 'Drift Detection Liquibase'
+name: 'Liquibase Secure Drift Detection'
 run-name: ${{ github.event.inputs.environment }} drift of current repo by ${{ github.actor }}
 
 on:
@@ -22,8 +22,7 @@ on:
 #####################################################################
 env:
   
-  # Pro License key
-  # See https://docs.liquibase.com/workflows/liquibase-pro/how-to-apply-your-liquibase-pro-license-key.html
+  # Secure License key
   LIQUIBASE_LICENSE_KEY: ${{ secrets.LIQUIBASE_LICENSE_KEY }}
   
   # JDBC URL of the database per environment
@@ -43,7 +42,7 @@ env:
   LIQUIBASE_COMMAND_REFERENCE_DEFAULT_SCHEMA_NAME: MUREX
 
   # Search path (See https://docs.liquibase.com/concepts/changelogs/how-liquibase-finds-files.html)
-  LIQUIBASE_SEARCH_PATH: liquibase-files,liquibase,snapshots
+  LIQUIBASE_SEARCH_PATH: flows,checks,liquibase,snapshots
   
   # The database changelog. See https://docs.liquibase.com/concepts/changelogs/working-with-changelogs.html
   LIQUIBASE_COMMAND_CHANGELOG_FILE: db.changelog.xml
@@ -78,7 +77,7 @@ jobs:
     - name: Setup Liquibase Environment
       uses: ./.github/workflows/setup-liquibase
 
-    - name: Liquibase Build Flow
+    - name: Liquibase Drift Detection Flow
       run: liquibase flow --flow-file=liquibase-drift.flowfile.yaml
 
     - name: Upload Reports Artifact
