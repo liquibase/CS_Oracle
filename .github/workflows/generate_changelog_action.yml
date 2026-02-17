@@ -1,28 +1,36 @@
-#############################################################################
-#  GitHub Action to perform drift detection using Liquibase Secure.
-#  
-##############################################################################
-name: 'Liquibase Secure Drift Detection'
-run-name: ${{ github.event.inputs.environment }} drift of current repo by ${{ github.actor }}
+####################################################################
+#  GitHub Action to perform an environment-targeted snapshot of
+#  a database using Liquibase Secure, Flows, and S3.
+#####################################################################
+name: 'Liquibase Secure GenerateChangelog'
+run-name: ${{ inputs.environment}} generatechangelog by ${{ github.actor }}
 
 on:
   workflow_dispatch:
     # Following are the inputs received via the GitHubActions Run workflow dialog
     inputs:
-    
       # The type 'environment' will automatically pull in the environments created in GitHub
       environment:
-        description: 'Environment for drift detection'
+        description: 'Environment for generating changelog'
         type: environment
-        required: true
-        default: DEV
+        required: true     
 
 ####################################################################
 #  Set up the environment
 #####################################################################
 env:
+  # AWS S3 bucket is the host part of the S3 bucket
+  AWS_S3_BUCKET: ${{ vars.AWS_S3_BUCKET }}
   
-  # Secure License key
+  # AWS Access credentials use by the Liquibase S3 Extension
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+
+  # Default AWS region
+  AWS_REGION: us-east-1
+  
+  # License key
   LIQUIBASE_LICENSE_KEY: ${{ secrets.LIQUIBASE_LICENSE_KEY }}
   
   # JDBC URL of the database per environment
@@ -42,33 +50,27 @@ env:
   LIQUIBASE_COMMAND_REFERENCE_DEFAULT_SCHEMA_NAME: MUREX
 
   # Search path (See https://docs.liquibase.com/concepts/changelogs/how-liquibase-finds-files.html)
-  LIQUIBASE_SEARCH_PATH: flows,checks,liquibase,snapshots
-  
-  # The database changelog. See https://docs.liquibase.com/concepts/changelogs/working-with-changelogs.html
-  LIQUIBASE_COMMAND_CHANGELOG_FILE: db.changelog.xml
+  LIQUIBASE_SEARCH_PATH: flows,checks,liquibase,snapshots,generatechangelogs
   
   ENVIRONMENT: ${{ inputs.environment }}
-
-  # Reports
-  LIQUIBASE_REPORT_PATH: reports
+  
+  # Drift Detection
+  LB_SCHEMAS: "MUREX"
   
   # Values: OFF, SEVERE, WARNING, INFO, FINE
   LIQUIBASE_LOG_LEVEL: INFO
   LIQUIBASE_LOG_FORMAT: JSON_PRETTY
   LIQUIBASE_LOG_FILE: logs/log.json
-  
-  # Drift Detection
-  LB_SCHEMAS: "MUREX"
-  
+
   # History Table
   LIQUIBASE_DBCLHISTORY_ENABLED: true
 
 jobs:
   #########################################################################
-  #  Drift
+  #  Generate Changelog
   #########################################################################
 
-  database-build:
+  database-generatechangelog:
     runs-on: [self-hosted]
     environment: ${{ inputs.environment }}
     steps:
@@ -76,13 +78,6 @@ jobs:
     
     - name: Setup Liquibase Environment
       uses: ./.github/workflows/setup-liquibase
-
-    - name: Liquibase Drift Detection Flow
-      run: liquibase flow --flow-file=liquibase-drift.flowfile.yaml
-
-    - name: Upload Reports Artifact
-      if: always()
-      uses: ./.github/workflows/upload-reports
-      with:
-        job-type: deploy
-        upload-other: false
+ 
+    - name: Liquibase Generate Changelog Flow
+      run: liquibase flow --flow-file=liquibase-generatechangelog.flowfile.yaml

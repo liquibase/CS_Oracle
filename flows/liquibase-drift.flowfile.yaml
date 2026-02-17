@@ -2,6 +2,7 @@
 
 globalVariables:
   ENV: ${ENVIRONMENT}
+  BUCKET: ${AWS_S3_BUCKET}
   SCHEMAS: ${LB_SCHEMAS}
 
 stages:
@@ -10,4 +11,4 @@ stages:
     # Check if manual updates were made to the environment since last deployment
     actions:
     - type: shell
-      command: liquibase --include-relations-for-computed-columns=true diff --reference-url=offline:oracle?snapshot=${ENV}-snapshot.json --report-name="drift-report-${ENV}.html" --reports-enabled=true --drift-severity=1
+      command: liquibase --search-path=s3://${BUCKET}/oracleSnapshots/ diff --reference-url=offline:oracle?snapshot=${ENV}-snapshot.json --report-name="drift-report-${ENV}.html" --reports-enabled=true --drift-severity=1 --schemas=${SCHEMAS}
