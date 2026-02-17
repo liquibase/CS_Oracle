@@ -42,5 +42,8 @@ endStage:
 
   - type: liquibase
     command: snapshot
-    cmdArgs: { snapshot-format: json, schemas: "${SCHEMAS}" }
-    globalArgs: { output-file: 'snapshots/${ENV}-snapshot.json' }
+    cmdArgs: {  snapshot-format: json, schemas: "${SCHEMAS}"}
+    globalArgs: { output-file: 's3://${BUCKET}/oracleSnapshots/${ENV}-snapshot.json' }
+        
+  - type: shell
+    command: echo 'Updated snapshot saved to s3://${BUCKET}/oracleSnapshots/${ENV}-snapshot.json'
