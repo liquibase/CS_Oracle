@@ -3,7 +3,7 @@
 
 globalVariables:
   ENV: ${ENVIRONMENT}
-  CONTAINER: ${AZURE_CONTAINER} 
+  BUCKET: ${AWS_S3_BUCKET}
   TAG: ${LB_TAG}
   CHECK_DRIFT: ${LB_CHECK_DRIFT}
   SCHEMAS: ${LB_SCHEMAS}
@@ -15,14 +15,14 @@ stages:
     actions:
       - type: shell
         if: "${CHECK_DRIFT} == true"
-        command: liquibase --search-path=az://${CONTAINER}/gh_sqlserver_snapshots/ diff --reference-url=offline:mssql?snapshot=${ENV}-snapshot.json --report-name="drift-report-${ENV}.html" --reports-enabled=true --drift-severity=1 --schemas=${SCHEMAS} --diff-types=columns,foreignkeys,indexes,primarykeys,tables,uniqueconstraints,views,checkconstraints,triggers
+        command: liquibase --search-path=s3://${BUCKET}/oracleSnapshots/ diff --reference-url=offline:oracle?snapshot=${ENV}-snapshot.json --report-name="drift-report-${ENV}.html" --reports-enabled=true --drift-severity=1 --schemas=${SCHEMAS}
 
     # actions:
       # - type: liquibase
         # if: "${CHECK_DRIFT} == true"
         # command: diff
-        # cmdArgs: { schemas: "${SCHEMAS}", drift-severity: "1", reference-url: "offline:mssql?snapshot=${ENV}-snapshot.json" }
-        # globalArgs: { reports-name: "drift-report-${ENV}.html", search-path: "s3://${BUCKET}/gh_sqlserver_snapshots/" }
+        # cmdArgs: { schemas: "${SCHEMAS}", drift-severity: "1", reference-url: "offline:oracle?snapshot=${ENV}-snapshot.json" }
+        # globalArgs: { reports-name: "drift-report-${ENV}.html", search-path: "s3://${BUCKET}/oracleSnapshots/" }
           
   Validation:
     actions: 
@@ -65,13 +65,6 @@ stages:
         command: update
         globalArgs: { reports-name: "deploy-report-${ENV}.html" }
 
-  Checks-Database:
-    actions:
-      - type: liquibase
-        command: checks run
-        cmdArgs: {checks-scope: database}
-        globalArgs: { reports-name: "checks-report-deploy-${ENV}-database.html" }
-
 ## The endStage ALWAYS RUNS. 
 ## So put actions here which you desire to perform whether previous stages' actions succeed or fail.
 ## If you do not want any actions to ALWAYS RUN, simply delete the endStage from your flow file.
@@ -80,11 +73,11 @@ endStage:
   actions:
     - type: liquibase
       command: snapshot
-      cmdArgs: {  snapshot-format: json, schemas: "${SCHEMAS}", snapshot-filters: "column,foreignkey,index,primarykey,table,uniqueconstraint,view,checkconstraint,trigger"}
-      globalArgs: { output-file: 'az://${CONTAINER}/gh_sqlserver_snapshots/${ENV}-snapshot.json' }
+      cmdArgs: {  snapshot-format: json, schemas: "${SCHEMAS}"}
+      globalArgs: { output-file: 's3://${BUCKET}/oracleSnapshots/${ENV}-snapshot.json' }
         
     - type: shell
-      command: echo 'Updated snapshot saved to az://${CONTAINER}/gh_sqlserver_snapshots/${ENV}-snapshot.json'  
+      command: echo 'Updated snapshot saved to s3://${BUCKET}/oracleSnapshots/${ENV}-snapshot.json'  
   
     - type: liquibase
       command: history
