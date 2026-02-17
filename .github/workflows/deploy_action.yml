@@ -1,7 +1,7 @@
 ####################################################################
 #  GitHub Action to perform an environment-targeted deployment of
-#  database changes using Liquibase Pro, Liquibase Pro Flows,
-#  Custom Quality checks and S3.
+#  database changes using Liquibase Secure, Liquibase Flows,
+#  Policy checks and S3.
 #####################################################################
 name: 'Liquibase Secure Deploy'
 run-name: ${{ inputs.environment}} deployment of current repo by ${{ github.actor }}
@@ -42,8 +42,7 @@ env:
   # Default AWS region
   AWS_REGION: us-east-1
   
-  # Pro License key
-  # See https://docs.liquibase.com/workflows/liquibase-pro/how-to-apply-your-liquibase-pro-license-key.html
+  # Secure License key
   LIQUIBASE_LICENSE_KEY: ${{ secrets.LIQUIBASE_LICENSE_KEY }}
   
   # JDBC URL of the database per environment
@@ -55,25 +54,25 @@ env:
   LIQUIBASE_COMMAND_PASSWORD: ${{ secrets.LIQUIBASE_PASSWORD }}
 
   # Default schema: Specify schema for all changes
-  LIQUIBASE_COMMAND_DEFAULT_SCHEMA_NAME: gha
-  LIQUIBASE_COMMAND_REFERENCE_DEFAULT_SCHEMA_NAME: gha
+  LIQUIBASE_COMMAND_DEFAULT_SCHEMA_NAME: MUREX
+  LIQUIBASE_COMMAND_REFERENCE_DEFAULT_SCHEMA_NAME: MUREX
 
   # Liquibase schema: Specified to allow flexibility in storage of Liquibase Change Tracking Tables
   # See https://docs.liquibase.com/parameters/liquibase-schema-name.html
-  LIQUIBASE_LIQUIBASE_SCHEMA_NAME: gha
+  LIQUIBASE_LIQUIBASE_SCHEMA_NAME: MUREX
 
   # Search path (See https://docs.liquibase.com/concepts/changelogs/how-liquibase-finds-files.html)
-  LIQUIBASE_SEARCH_PATH: ., flows, checks
+  LIQUIBASE_SEARCH_PATH: flows,checks,liquibase,snapshots
   
   # The database changelog. See https://docs.liquibase.com/concepts/changelogs/working-with-changelogs.html
-  LIQUIBASE_COMMAND_CHANGELOG_FILE: changelog.yaml
+  LIQUIBASE_COMMAND_CHANGELOG_FILE: db.changelog.xml
   
   ENVIRONMENT: ${{ inputs.environment }}
   LB_TAG: ${{ github.event.inputs.lb_tag || github.ref_name }}
 
   # Drift Detection
   LB_CHECK_DRIFT: ${{ github.event.inputs.check_drift }}
-  LB_SCHEMAS: "gha,abc"
+  LB_SCHEMAS: "MUREX"
   
   # Reports
   # LIQUIBASE_REPORT_PATH: s3://${{ secrets.AWS_S3_BUCKET }}/gha_postgres_reports
