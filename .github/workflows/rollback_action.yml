@@ -79,10 +79,10 @@ env:
 
 jobs:
   #########################################################################
-  #  Build
+  #  Rollback
   #########################################################################
 
-  database-build:
+  database-rollback:
     runs-on: [self-hosted]
     environment: ${{ inputs.environment }}
     steps:
