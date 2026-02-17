@@ -72,12 +72,13 @@ stages:
 endStage:
   actions:
     - type: liquibase
+      command: history
+
+    - type: liquibase
       command: snapshot
       cmdArgs: {  snapshot-format: json, schemas: "${SCHEMAS}"}
       globalArgs: { output-file: 's3://${BUCKET}/oracleSnapshots/${ENV}-snapshot.json' }
         
     - type: shell
       command: echo 'Updated snapshot saved to s3://${BUCKET}/oracleSnapshots/${ENV}-snapshot.json'  
-  
-    - type: liquibase
-      command: history
+ 
