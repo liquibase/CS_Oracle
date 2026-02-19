@@ -11,7 +11,11 @@ stages:
     actions:
       - type: liquibase
         command: generate-changelog
-        cmdArgs: {  'generatechangelogs/${ENV}-changelog.oracle.sql', overwrite-output-file: "true", schemas: "${SCHEMAS}"}
+        cmdArgs: { changelog-file: 's3://${BUCKET}/oracleChangelogs/${ENV}-changelog.oracle.sql', overwrite-output-file: "true", schemas: "${SCHEMAS}" }
+
+      - type: liquibase
+        command: generate-changelog
+        cmdArgs: { changelog-file: 'generatechangelogs/oracleChangelogs/${ENV}-changelog.oracle.sql', overwrite-output-file: "true", schemas: "${SCHEMAS}" }
         
       - type: shell
         command: echo 'Generate Changelog saved to s3://${BUCKET}/oracleChangelogs/${ENV}-changelog.oracle.sql'

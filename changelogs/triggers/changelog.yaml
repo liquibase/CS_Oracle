@@ -1,0 +1,37 @@
+databaseChangeLog:
+
+# - changeSet:
+#     id: trigger1
+#     author: nvoxland
+#     changes:
+#     - sqlFile:
+#         path: trigger1.sql
+#         relativeToChangelogFile: true
+#     - rollback:
+#         - sqlFile:
+#             path: trigger1-rollback.sql
+#             relativeToChangelogFile: true
+
+# - changeSet:
+#     id: trigger2
+#     author: nvoxland
+#     changes:
+#     - sqlFile:
+#         path: trigger2.sql
+#         relativeToChangelogFile: true
+#     - rollback:
+#         - sqlFile:
+#             path: trigger2-rollback.sql
+#             relativeToChangelogFile: true
+
+# - changeSet:
+#     id: trigger3
+#     author: nvoxland
+#     changes:
+#     - sqlFile:
+#         path: trigger3.sql
+#         relativeToChangelogFile: true
+#     - rollback:
+#         - sqlFile:
+#             path: trigger3-rollback.sql
+#             relativeToChangelogFile: true

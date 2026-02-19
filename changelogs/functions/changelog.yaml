@@ -1,0 +1,38 @@
+databaseChangeLog:
+
+# - changeSet:
+#     id: function1
+#     author: nvoxland
+#     changes:
+#     - sqlFile:
+#         path: function1.sql
+#         relativeToChangelogFile: true
+#     - rollback:
+#         - sqlFile:
+#             path: function1-rollback.sql
+#             relativeToChangelogFile: true
+
+# - changeSet:
+#     id: function2
+#     author: nvoxland
+#     changes:
+#     - sqlFile:
+#         path: function2.sql
+#         relativeToChangelogFile: true
+#     - rollback:
+#         - sqlFile:
+#             path: function2-rollback.sql
+#             relativeToChangelogFile: true
+
+# - changeSet:
+#     id: function3
+#     author: nvoxland
+#     changes:
+#     - sqlFile:
+#         path: function3.sql
+#         relativeToChangelogFile: true
+#     - rollback:
+#         - sqlFile:
+#             path: function3-rollback.sql
+#             relativeToChangelogFile: true
+

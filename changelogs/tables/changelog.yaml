@@ -1,0 +1,38 @@
+databaseChangeLog:
+
+- changeSet:
+    id: table1
+    author: asmith
+    changes:
+    - sqlFile:
+        path: table1.sql
+        relativeToChangelogFile: true
+    - rollback:
+        - sqlFile:
+            path: table1-rollback.sql
+            relativeToChangelogFile: true
+
+# - changeSet:
+#     id: table2
+#     author: nvoxland
+#     changes:
+#     - sqlFile:
+#         path: table2.sql
+#         relativeToChangelogFile: true
+#     - rollback:
+#         - sqlFile:
+#             path: table2-rollback.sql
+#             relativeToChangelogFile: true
+
+# - changeSet:
+#     id: table3
+#     author: nvoxland
+#     changes:
+#     - sqlFile:
+#         path: table3.sql
+#         relativeToChangelogFile: true
+#     - rollback:
+#         - sqlFile:
+#             path: table3-rollback.sql
+#             relativeToChangelogFile: true
+
