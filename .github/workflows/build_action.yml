@@ -60,13 +60,13 @@ env:
   LIQUIBASE_COMMAND_REFERENCE_DEFAULT_SCHEMA_NAME: MUREX
 
   # Search path (See https://docs.liquibase.com/concepts/changelogs/how-liquibase-finds-files.html)
-  LIQUIBASE_SEARCH_PATH: flows,checks,liquibase,snapshots
+  LIQUIBASE_SEARCH_PATH: flows,checks,changelogs,snapshots
   
   # The database changelog. See https://docs.liquibase.com/concepts/changelogs/working-with-changelogs.html
   LIQUIBASE_COMMAND_CHANGELOG_FILE: db.changelog.xml
   
   ENVIRONMENT: ${{ inputs.environment }}
-  LB_TAG: ${{ github.event.inputs.lb_tag || github.ref_name }}
+  LB_TAG: ${{ github.event.inputs.lb_tag || github.run_number }}
 
   # Reports
   LIQUIBASE_REPORT_PATH: reports

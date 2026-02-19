@@ -50,7 +50,7 @@ env:
   LIQUIBASE_COMMAND_REFERENCE_DEFAULT_SCHEMA_NAME: MUREX
 
   # Search path (See https://docs.liquibase.com/concepts/changelogs/how-liquibase-finds-files.html)
-  LIQUIBASE_SEARCH_PATH: flows,checks,liquibase,snapshots
+  LIQUIBASE_SEARCH_PATH: flows,checks,changelogs,snapshots
   
   ENVIRONMENT: ${{ inputs.environment }}
   
