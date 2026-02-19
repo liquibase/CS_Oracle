@@ -80,7 +80,7 @@ env:
 
 jobs:
   #########################################################################
-  #  Generate Changelog
+  #  Run Utilities
   #########################################################################
 
   database-utilities:
@@ -92,5 +92,5 @@ jobs:
     - name: Setup Liquibase Environment
       uses: ./.github/workflows/setup-liquibase
  
-    - name: Liquibase Generate Changelog Flow
+    - name: Liquibase Utilities Flow
       run: liquibase flow --flow-file=liquibase-utilities.flowfile.yaml
