@@ -1,9 +1,8 @@
 ####################################################################
-#  GitHub Action to perform an environment-targeted snapshot of
-#  a database using Liquibase Secure, Flows, and S3.
+#  GitHub Action to perform various Liquibase utilities.
 #####################################################################
-name: 'Liquibase Secure GenerateChangelog'
-run-name: ${{ inputs.environment}} generatechangelog by ${{ github.actor }}
+name: 'Liquibase Secure Utilities'
+run-name: ${{ inputs.environment}} utilities by ${{ github.actor }}
 
 on:
   workflow_dispatch:
@@ -11,10 +10,20 @@ on:
     inputs:
       # The type 'environment' will automatically pull in the environments created in GitHub
       environment:
-        description: 'Environment for generating changelog'
+        description: 'Environment'
         type: environment
         required: true     
 
+      utility:
+        description: 'Utility to run'
+        type: choice
+        required: true
+        options:
+        - changelog-sync
+        - generate-changelog
+        - release-locks
+        - snapshot
+       
 ####################################################################
 #  Set up the environment
 #####################################################################
@@ -53,6 +62,7 @@ env:
   LIQUIBASE_SEARCH_PATH: flows,checks,changelogs
   
   ENVIRONMENT: ${{ inputs.environment }}
+  LB_UTILITY: ${{ inputs.utility }}
   
   # Drift Detection
   LB_SCHEMAS: "MUREX"
@@ -70,7 +80,7 @@ jobs:
   #  Generate Changelog
   #########################################################################
 
-  database-generatechangelog:
+  database-utilities:
     runs-on: [self-hosted]
     environment: ${{ inputs.environment }}
     steps:
@@ -80,4 +90,4 @@ jobs:
       uses: ./.github/workflows/setup-liquibase
  
     - name: Liquibase Generate Changelog Flow
-      run: liquibase flow --flow-file=liquibase-generatechangelog.flowfile.yaml
+      run: liquibase flow --flow-file=liquibase-utilities.flowfile.yaml
