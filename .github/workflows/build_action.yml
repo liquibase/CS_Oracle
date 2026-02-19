@@ -102,8 +102,6 @@ jobs:
       uses: ./.github/workflows/setup-liquibase
 
     - name: Liquibase Build Flow
-      env: 
-        JAVA_OPTS: "-Doracle.jdbc.useFetchSizeWithLongColumn=true"
       run: liquibase flow --flow-file=liquibase-build.flowfile.yaml
 
     - name: Upload Reports Artifact
