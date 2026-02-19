@@ -11,6 +11,9 @@ stages:
   Utility:
     actions:
     
+      - type: shell
+        command: echo 'Running ${UTILITY}'    
+    
       - type: liquibase
         if: "${UTILITY} == changelog-sync"
         command: changelog-sync
