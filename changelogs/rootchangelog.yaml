@@ -22,7 +22,7 @@ databaseChangeLog:
     file: triggers/changelog.yaml
     relativeToChangelogFile: true
 - include:
-    file: data/changelog.yaml
+    file: datadml/changelog.yaml
     relativeToChangelogFile: true
 - include:
     file: materializedviews/changelog.yaml
