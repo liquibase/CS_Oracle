@@ -20,9 +20,11 @@ on:
         required: true
         options:
         - changelog-sync
-        - generate-changelog
+        - generate-changelog-s3
+        - generate-changelog-zip        
         - release-locks
-        - snapshot
+        - snapshot-s3
+        - snapshot-zip
        
 ####################################################################
 #  Set up the environment
@@ -94,3 +96,24 @@ jobs:
  
     - name: Liquibase Utilities Flow
       run: liquibase flow --flow-file=liquibase-utilities.flowfile.yaml
+
+    - name: Upload Generate Changelog Artifact
+      if: github.event.inputs.utility == 'generate-changelog-zip'
+      uses: ./.github/workflows/upload-changelogs
+      with:
+        job-type: deploy
+        upload-other: false
+        
+    - name: Upload Generate Changelog Artifact
+      if: github.event.inputs.utility == 'generate-changelog-zip'
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.environment }}-changelog.oracle.zip
+        path: generatechangelogs
+        
+    - name: Upload Snapshot Artifact
+      if: github.event.inputs.utility == 'snapshot-zip'
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.environment }}-snapshot.zip
+        path: snapshots

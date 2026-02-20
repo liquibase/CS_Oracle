@@ -17,30 +17,45 @@ stages:
       - type: liquibase
         if: "${UTILITY} == changelog-sync"
         command: changelog-sync
-        
-      - type: shell
-        if: "${UTILITY} == generate-changelog"
-        command: echo 'Generate Changelog saved to s3://${BUCKET}/oracleChangelogs/${ENV}-changelog.oracle.xml'
 
       - type: liquibase
-        if: "${UTILITY} == generate-changelog"
+        if: "${UTILITY} == generate-changelog-s3"
         command: generate-changelog
         cmdArgs: { changelog-file: 's3://${BUCKET}/oracleChangelogs/${ENV}/${ENV}-changelog.oracle.xml', overwrite-output-file: "true", schemas: "${SCHEMAS}" }
         
       - type: shell
-        if: "${UTILITY} == generate-changelog"
+        if: "${UTILITY} == generate-changelog-s3"
         command: echo 'Generate Changelog saved to s3://${BUCKET}/oracleChangelogs/${ENV}/${ENV}-changelog.oracle.xml'
+        
+      - type: liquibase
+        if: "${UTILITY} == generate-changelog-zip"
+        command: generate-changelog
+        cmdArgs: { changelog-file: 'generatechangelogs/${ENV}/${ENV}-changelog.oracle.xml', overwrite-output-file: "true", schemas: "${SCHEMAS}" }
+        
+      - type: shell
+        if: "${UTILITY} == generate-changelog-zip"
+        command: echo 'Generate Changelog saved to generatechangelogs/${ENV}/${ENV}-changelog.oracle.xml'
 
       - type: liquibase
         if: "${UTILITY} == release-locks"
         command: release-locks
 
       - type: liquibase
-        if: "${UTILITY} == snapshot"
+        if: "${UTILITY} == snapshot-s3"
         command: snapshot
         cmdArgs: {  snapshot-format: json, schemas: "${SCHEMAS}"}
         globalArgs: { output-file: 's3://${BUCKET}/oracleSnapshots/${ENV}-snapshot.json' }
         
       - type: shell
-        if: "${UTILITY} == snapshot"
+        if: "${UTILITY} == snapshot-s3"
         command: echo 'Snapshot saved to s3://${BUCKET}/oracleSnapshots/${ENV}-snapshot.json'
+
+      - type: liquibase
+        if: "${UTILITY} == snapshot-zip"
+        command: snapshot
+        cmdArgs: {  snapshot-format: json, schemas: "${SCHEMAS}"}
+        globalArgs: { output-file: 'snapshots/${ENV}-snapshot.json' }
+        
+      - type: shell
+        if: "${UTILITY} == snapshot-zip"
+        command: echo 'Snapshot saved to snapshots/${ENV}-snapshot.json'
