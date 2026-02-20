@@ -12,7 +12,6 @@ databaseChangeLog:
         - sqlFile:
             path: procedure1-rollback.sql
             relativeToChangelogFile: true
-            endDelimiter: /
 
 # - changeSet:
 #     id: procedure2
