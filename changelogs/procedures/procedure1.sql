@@ -1,0 +1,5 @@
+CREATE OR REPLACE PROCEDURE say_hello AS
+BEGIN
+  DBMS_OUTPUT.PUT_LINE('Hello from Oracle');
+END;
+/

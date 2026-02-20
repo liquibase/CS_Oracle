@@ -1,0 +1,1 @@
+DROP PROCEDURE say_hello;

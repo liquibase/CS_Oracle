@@ -1,16 +1,18 @@
 databaseChangeLog:
 
-# - changeSet:
-#     id: procedure1
-#     author: nvoxland
-#     changes:
-#     - sqlFile:
-#         path: procedure1.sql
-#         relativeToChangelogFile: true
-#     - rollback:
-#         - sqlFile:
-#             path: procedure1-rollback.sql
-#             relativeToChangelogFile: true
+- changeSet:
+    id: procedure1
+    author: asmith
+    changes:
+    - sqlFile:
+        path: procedure1.sql
+        relativeToChangelogFile: true
+        endDelimiter: /
+    - rollback:
+        - sqlFile:
+            path: procedure1-rollback.sql
+            relativeToChangelogFile: true
+            endDelimiter: /
 
 # - changeSet:
 #     id: procedure2
