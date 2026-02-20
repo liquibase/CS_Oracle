@@ -25,11 +25,11 @@ stages:
       - type: liquibase
         if: "${UTILITY} == generate-changelog"
         command: generate-changelog
-        cmdArgs: { changelog-file: 's3://${BUCKET}/oracleChangelogs/${ENV}-changelog.oracle.xml', overwrite-output-file: "true", schemas: "${SCHEMAS}" }
+        cmdArgs: { changelog-file: 's3://${BUCKET}/oracleChangelogs/${ENV}/${ENV}-changelog.oracle.xml', overwrite-output-file: "true", schemas: "${SCHEMAS}" }
         
       - type: shell
         if: "${UTILITY} == generate-changelog"
-        command: echo 'Generate Changelog saved to s3://${BUCKET}/oracleChangelogs/${ENV}-changelog.oracle.xml'
+        command: echo 'Generate Changelog saved to s3://${BUCKET}/oracleChangelogs/${ENV}/${ENV}-changelog.oracle.xml'
 
       - type: liquibase
         if: "${UTILITY} == release-locks"
