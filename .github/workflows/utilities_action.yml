@@ -96,13 +96,6 @@ jobs:
  
     - name: Liquibase Utilities Flow
       run: liquibase flow --flow-file=liquibase-utilities.flowfile.yaml
-
-    - name: Upload Generate Changelog Artifact
-      if: github.event.inputs.utility == 'generate-changelog-zip'
-      uses: ./.github/workflows/upload-changelogs
-      with:
-        job-type: deploy
-        upload-other: false
         
     - name: Upload Generate Changelog Artifact
       if: github.event.inputs.utility == 'generate-changelog-zip'
