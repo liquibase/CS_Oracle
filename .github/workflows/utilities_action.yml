@@ -20,11 +20,15 @@ on:
         required: true
         options:
         - changelog-sync
+        - connect
+        - dbcl-history
         - generate-changelog-s3
-        - generate-changelog-zip        
+        - generate-changelog-zip
+        - history
         - release-locks
         - snapshot-s3
         - snapshot-zip
+        - status
        
 ####################################################################
 #  Set up the environment
