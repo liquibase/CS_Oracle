@@ -3,7 +3,6 @@
 
 globalVariables:
   ENV: ${ENVIRONMENT}
-  BUCKET: ${AWS_S3_BUCKET}
   SCHEMAS: ${LB_SCHEMAS}
   UTILITY: ${LB_UTILITY}
 
