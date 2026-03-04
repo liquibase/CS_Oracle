@@ -21,11 +21,9 @@ on:
         options:
         - changelog-sync
         - connect
-        - generate-changelog-s3
         - generate-changelog-zip
         - history
         - release-locks
-        - snapshot-s3
         - snapshot-zip
         - status
        
