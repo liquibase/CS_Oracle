@@ -21,10 +21,6 @@ stages:
       - type: liquibase
         if: "${UTILITY} == connect"
         command: connect
-        
-      - type: liquibase
-        if: "${UTILITY} == dbcl-history"
-        command: dbcl-history
 
       - type: liquibase
         if: "${UTILITY} == generate-changelog-s3"

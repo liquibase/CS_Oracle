@@ -21,7 +21,6 @@ on:
         options:
         - changelog-sync
         - connect
-        - dbcl-history
         - generate-changelog-s3
         - generate-changelog-zip
         - history
