@@ -19,6 +19,14 @@ stages:
         command: changelog-sync
 
       - type: liquibase
+        if: "${UTILITY} == connect"
+        command: connect
+        
+      - type: liquibase
+        if: "${UTILITY} == dbcl-history"
+        command: dbcl-history
+
+      - type: liquibase
         if: "${UTILITY} == generate-changelog-s3"
         command: generate-changelog
         cmdArgs: { changelog-file: 's3://${BUCKET}/oracleChangelogs/${ENV}/${ENV}-changelog.oracle.xml', overwrite-output-file: "true", schemas: "${SCHEMAS}" }
@@ -35,6 +43,10 @@ stages:
       - type: shell
         if: "${UTILITY} == generate-changelog-zip"
         command: echo 'Generate Changelog saved to generatechangelogs/${ENV}/${ENV}-changelog.oracle.xml'
+
+      - type: liquibase
+        if: "${UTILITY} == history"
+        command: history
 
       - type: liquibase
         if: "${UTILITY} == release-locks"
@@ -59,3 +71,7 @@ stages:
       - type: shell
         if: "${UTILITY} == snapshot-zip"
         command: echo 'Snapshot saved to snapshots/${ENV}-snapshot.json'
+
+      - type: liquibase
+        if: "${UTILITY} == status"
+        command: status
