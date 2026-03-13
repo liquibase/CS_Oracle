@@ -35,7 +35,7 @@ stages:
         if: "${ROLLBACK_TYPE} == rollback_to_tag"
         command: rollback
         cmdArgs: {tag: "${LB_TAG}"}
-        globalArgs: { reports-name: "${ENV}-rollback-report.html"" }
+        globalArgs: { reports-name: "${ENV}-rollback-report.html" }
 
   Rollback-One-Changeset-SQL:
     actions:
