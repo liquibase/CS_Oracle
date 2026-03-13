@@ -127,13 +127,13 @@ jobs:
     steps:
       - name: Validate required inputs
         run: |
-          if [ -z "${{ inputs.tag }}" ]; then
+          if [ -z "${{ inputs.lb_tag }}" ]; then
             echo "ERROR: tag is required for rollback_to_tag"
             exit 1
           fi
       - name: Run tag rollback
         run: |
-          echo "Rolling back to tag ${{ inputs.tag }}"
+          echo "Rolling back to tag ${{ inputs.lb_tag }}"
 
   #########################################################################
   #  Rollback
