@@ -6,14 +6,14 @@
 ## or your flow file can have multiple stages with fewer actions in each stage.
 
 globalVariables:
-  TAG: ${LB_TAG}
+  TAG: ${LB_TAG:-null}
   BUCKET: ${AWS_S3_BUCKET}
   ENV: ${ENVIRONMENT}
   SCHEMAS: ${LB_SCHEMAS}
   ROLLBACK_TYPE: ${ROLLBACK_TYPE}
-  CHANGESET_ID: ${LB_CHANGESET_ID}
-  CHANGESET_AUTHOR: ${LB_CHANGESET_AUTHOR}
-  CHANGESET_PATH: ${LB_CHANGESET_PATH}
+  CHANGESET_ID: ${LB_CHANGESET_ID:-null}
+  CHANGESET_AUTHOR: ${LB_CHANGESET_AUTHOR:-null}
+  CHANGESET_PATH: ${LB_CHANGESET_PATH:-null}
 
 stages:
   Validation:
