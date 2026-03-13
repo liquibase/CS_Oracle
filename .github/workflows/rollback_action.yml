@@ -37,7 +37,7 @@ on:
 
       # Tag field (only used if rollback_type == rollback_to_tag)
       lb_tag:
-        description: 'Tag for rollback'
+        description: "Tag (for rollback_to_tag)"
         type: string
         required: false
 
