@@ -107,7 +107,7 @@ jobs:
   #########################################################################
   #  Validate inputs
   #########################################################################
-  rollback_one_changeset:
+  rollback-one-changeset:
     runs-on: [self-hosted]
     if: ${{ inputs.rollback_type == 'rollback_one_changeset' }}
     steps:
@@ -135,12 +135,17 @@ jobs:
         run: |
           echo "Rolling back to tag ${{ inputs.tag }}"
 
-
   #########################################################################
   #  Rollback
   #########################################################################
   database-rollback:
     runs-on: [self-hosted]
+    needs: [rollback-one-changeset, rollback-to-tag]
+    if: |
+      always() &&
+      (needs.rollback-one-changeset.result == 'success' || needs.rollback-one-changeset.result == 'skipped') &&
+      (needs.rollback-to-tag.result == 'success' || needs.rollback-to-tag.result == 'skipped') &&
+      (needs.rollback-one-changeset.result == 'success' || needs.rollback-to-tag.result == 'success')
     environment: ${{ inputs.environment }}
     steps:
     - uses: actions/checkout@v4
