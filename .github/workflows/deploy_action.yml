@@ -102,7 +102,7 @@ jobs:
       needs_approval: ${{ steps.lbp-policy-checks.outputs.needs_approval }}
       exit_message: ${{ steps.lbp-policy-checks.outputs.exit_message }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
    
     - name: Setup Liquibase Environment
       uses: ./.github/workflows/setup-liquibase
@@ -152,7 +152,7 @@ jobs:
     environment: ${{ inputs.environment }}
     if: always() && (needs.run-policy-checks.outputs.needs_approval == 'false' || needs.manual-approval.result == 'success')
     steps:
-    - uses: actions/checkout@v4    
+    - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4    
 
     - name: Setup Liquibase Environment
       uses: ./.github/workflows/setup-liquibase
