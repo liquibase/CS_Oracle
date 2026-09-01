@@ -12,6 +12,19 @@ databaseChangeLog:
         - sqlFile:
             path: procedure1-rollback.sql
             relativeToChangelogFile: true
+            
+- changeSet:
+    id: main_proc
+    author: asmith
+    runWith: sqlplus
+    runOnChange: true
+    runAlways: true
+    ignore: true
+    changes:
+    - sqlFile:
+        path: main_proc.sql
+        relativeToChangelogFile: true
+        endDelimiter: /
 
 # - changeSet:
 #     id: procedure2

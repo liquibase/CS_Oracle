@@ -1,38 +1,49 @@
 databaseChangeLog:
 
-# - changeSet:
-#     id: data1
-#     author: nvoxland
-#     changes:
-#     - sqlFile:
-#         path: data1.sql
-#         relativeToChangelogFile: true
-#     - rollback:
-#         - sqlFile:
-#             path: data1-rollback.sql
-#             relativeToChangelogFile: true
+- changeSet:
+    id: data_dml_test
+    author: asmith
+    runWith: sqlplus
+    changes:
+    - sqlFile:
+        path: data_dml_01.sql
+        relativeToChangelogFile: true
+    - rollback:
+        - sqlFile:
+            path: data_dml_01-rollback.sql
+            relativeToChangelogFile: true
 
-# - changeSet:
-#     id: data2
-#     author: nvoxland
-#     changes:
-#     - sqlFile:
-#         path: data2.sql
-#         relativeToChangelogFile: true
-#     - rollback:
-#         - sqlFile:
-#             path: data2-rollback.sql
-#             relativeToChangelogFile: true
+- changeSet:
+    id: data_dml_test2
+    author: asmith
+    runWith: sqlplus
+    changes:
+    - sqlFile:
+        path: data_dml_02.sql
+        relativeToChangelogFile: true
+    - rollback:
+        - sqlFile:
+            path: data_dml_02-rollback.sql
+            relativeToChangelogFile: true
 
-# - changeSet:
-#     id: data3
-#     author: nvoxland
-#     changes:
-#     - sqlFile:
-#         path: data3.sql
-#         relativeToChangelogFile: true
-#     - rollback:
-#         - sqlFile:
-#             path: data3-rollback.sql
-#             relativeToChangelogFile: true
+- changeSet:
+    id: data_dml_test3
+    author: asmith
+    runWith: sqlplus
+    changes:
+    - sqlFile:
+        path: data_dml_03.sql
+        relativeToChangelogFile: true
+    - rollback:
+        - sqlFile:
+            path: data_dml_03-rollback.sql
+            relativeToChangelogFile: true
+
+- modifyChangeSets:
+    runWith: sqlplus
+    includeAll:
+      path: scripts
+      context: DEV
+      relativeToChangelogFile: true
+      errorIfMissingOrEmpty: true
 
