@@ -6,13 +6,13 @@ runs:
   using: 'composite'
   steps:
     - name: Setup Java
-      uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4
+      uses: actions/setup-java@v5.2.0
       with:
         distribution: 'temurin'
-        java-version: '17'
+        java-version: '21'
 
     - name: Setup Liquibase Secure
-      uses: liquibase/setup-liquibase@d22b8c008d6e54475bde84f50bafe9608ea42efb # v2
+      uses: liquibase/setup-liquibase@v3
       with:
-        version: '5.1.0'
+        version: '5.2.2'
         edition: 'secure'
