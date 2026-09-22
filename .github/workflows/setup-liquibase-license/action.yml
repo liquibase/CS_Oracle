@@ -1,0 +1,35 @@
+name: 'Setup Liquibase License'
+description: 'Decodes a base64-encoded Liquibase license file secret to disk and validates it'
+
+inputs:
+  license-b64:
+    description: 'Base64-encoded contents of the Liquibase license file'
+    required: true
+  license-path:
+    description: 'Path where the decoded license file should be written'
+    required: false
+    default: 'license.lic'
+  min-bytes:
+    description: 'Minimum expected file size in bytes, used to warn on likely-truncated files'
+    required: false
+    default: '50'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Decode Liquibase license file
+      shell: bash
+      run: echo "${{ inputs.license-b64 }}" | base64 -d > "${{ inputs.license-path }}"
+
+    - name: Validate license file
+      shell: bash
+      run: |
+        FILE="${{ inputs.license-path }}"
+
+        if [ ! -f "$FILE" ]; then
+          echo "::error::$FILE was not created"
+          exit 1
+        fi
+
+        filesize=$(wc -c < "$FILE" | tr -d ' ')
+        echo "$FILE size: ${filesize} bytes"

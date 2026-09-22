@@ -77,7 +77,13 @@ jobs:
     environment: ${{ inputs.environment }}
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-    
+
+    - name: Setup Liquibase License
+      uses: ./.github/workflows/setup-liquibase-license
+      with:
+        license-b64: ${{ secrets.LIQUIBASE_LICENSE_FILE_B64 }}
+        license-path: ${{ env.LIQUIBASE_LICENSE_FILE }}  
+
     - name: Setup Liquibase Environment
       uses: ./.github/workflows/setup-liquibase
 
