@@ -43,7 +43,8 @@ env:
   AWS_REGION: us-east-1
   
   # Secure License key
-  LIQUIBASE_LICENSE_KEY: ${{ secrets.LIQUIBASE_LICENSE_KEY }}
+  # LIQUIBASE_LICENSE_KEY: ${{ secrets.LIQUIBASE_LICENSE_KEY }}
+  LIQUIBASE_LICENSE_FILE: ${{ github.workspace }}/license.lic
   
   # JDBC URL of the database per environment
   # See https://docs.liquibase.com/workflows/liquibase-community/using-jdbc-url-in-liquibase.html
