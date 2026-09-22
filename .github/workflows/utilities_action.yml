@@ -41,7 +41,8 @@ env:
   
   # Secure License key
   # LIQUIBASE_LICENSE_KEY: ${{ secrets.LIQUIBASE_LICENSE_KEY }}
-  LIQUIBASE_LICENSE_FILE: ${{ github.workspace }}/license.lic
+  #LIQUIBASE_LICENSE_FILE: ${{ github.workspace }}/license.lic
+  LIQUIBASE_LICENSE_FILE: aws-secrets,asmith_oracle,license_file
   
   # JDBC URL of the database per environment
   # See https://docs.liquibase.com/workflows/liquibase-community/using-jdbc-url-in-liquibase.html
