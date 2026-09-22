@@ -103,14 +103,15 @@ jobs:
       uses: aws-actions/aws-secretsmanager-get-secrets@2297f9a879480a9e3af9b293ed15c70caf8e1c88 # v3.0.2
       with:
         secret-ids: |
-          LB_LICENSE, asmith_oracle/license-file-b64
+          LB_LICENSE, asmith_oracle
+        parse-json-secrets: true
 
     - name: Setup Liquibase License
       uses: ./.github/workflows/setup-liquibase-license
       with:
       #  license-b64: ${{ secrets.LIQUIBASE_LICENSE_FILE_B64 }}
       #  license-path: ${{ env.LIQUIBASE_LICENSE_FILE }}
-        license-b64: ${{ env.LB_LICENSE }}
+        license-b64: ${{ env.LB_LICENSE_LICENSE_FILE_B64 }}
         license-path: ${{ env.LIQUIBASE_LICENSE_FILE }}
 
     - name: Setup Liquibase Environment
