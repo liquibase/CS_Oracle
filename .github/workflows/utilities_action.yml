@@ -42,7 +42,6 @@ env:
   # Secure License key
   # LIQUIBASE_LICENSE_KEY: ${{ secrets.LIQUIBASE_LICENSE_KEY }}
   #LIQUIBASE_LICENSE_FILE: ${{ github.workspace }}/license.lic
-  LIQUIBASE_LICENSE_FILE: aws-secrets,asmith_oracle,license_file
   
   # JDBC URL of the database per environment
   # See https://docs.liquibase.com/workflows/liquibase-community/using-jdbc-url-in-liquibase.html
@@ -91,11 +90,27 @@ jobs:
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
   
-    - name: Setup Liquibase License
-      uses: ./.github/workflows/setup-liquibase-license
+    # - name: Setup Liquibase License
+    #   uses: ./.github/workflows/setup-liquibase-license
+    #   with:
+    #     license-b64: ${{ secrets.LIQUIBASE_LICENSE_FILE_B64 }}
+    #     license-path: ${{ env.LIQUIBASE_LICENSE_FILE }}
+        
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@cbe3b392738ccf3f987d68400dafcf4b0624a56c # v6.2.4
       with:
-        license-b64: ${{ secrets.LIQUIBASE_LICENSE_FILE_B64 }}
-        license-path: ${{ env.LIQUIBASE_LICENSE_FILE }}  
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+        aws-region: us-east-1
+  
+    - name: Get Liquibase license secret
+      id: license-secret
+      uses: aws-actions/aws-secretsmanager-get-secrets@2297f9a879480a9e3af9b293ed15c70caf8e1c88 # v3.0.2
+      with:
+        secret-ids: |
+          LB_LICENSE, asmith_oracle/license-file-b64
+          license-path: ${{ env.LIQUIBASE_LICENSE_FILE }}      
 
     - name: Setup Liquibase Environment
       uses: ./.github/workflows/setup-liquibase
