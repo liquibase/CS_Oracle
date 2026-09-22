@@ -5,18 +5,23 @@
 ## A flow file can have one or more stages, each with multiple "actions", 
 ## or your flow file can have multiple stages with fewer actions in each stage.
 globalVariables:
-  TAG: ${LB_TAG}
+  TAG: ${LB_TAG:-'1.1'}
   BUCKET: ${AWS_S3_BUCKET}
   ENV: ${ENVIRONMENT}
   CHECK_DRIFT: ${LB_CHECK_DRIFT}
-  SCHEMAS: ${LB_SCHEMAS}  
+  SCHEMAS: ${LB_SCHEMAS:-'dbo'}  
   
 stages:
 
-  Validation:
-    actions: 
-      - type: liquibase
-        command: validate
+#  Validation:
+#    actions: 
+#      - type: liquibase
+#        command: validate
+
+  Validate:
+    actions:
+      - type: shell
+        command: (if not exist "reports" mkdir reports) & (liquibase validate > temp.txt 2>&1) & (if errorlevel 1 ((echo ^<pre^> & type temp.txt & echo ^</pre^>) > reports/ValidationError.html & del temp.txt) else (del temp.txt))
 
 #  Drift-Detection:
 #    Check if manual updates were made to the environment since last deployment

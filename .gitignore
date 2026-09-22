@@ -5,3 +5,6 @@ liquibase.properties
 .liquibase
 data/
 generatechangelogs/
+err.txt
+out.txt
+myoutput.log

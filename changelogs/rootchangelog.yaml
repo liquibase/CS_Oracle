@@ -27,3 +27,10 @@ databaseChangeLog:
 - include:
     file: materializedviews/changelog.yaml
     relativeToChangelogFile: true
+- include:
+    file: materializedviews/changelog.yaml
+    relativeToChangelogFile: true
+- includeAll:
+    path: scripts
+    relativeToChangelogFile: true
+    errorIfMissingOrEmpty: true
