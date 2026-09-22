@@ -42,8 +42,8 @@ env:
   
   # Secure License key
   # LIQUIBASE_LICENSE_KEY: ${{ secrets.LIQUIBASE_LICENSE_KEY }}
-  LIQUIBASE_LICENSE_FILE_B64: ${{ secrets.LIQUIBASE_LICENSE_FILE_B64 }}
-  LIQUIBASE_LICENSE_FILE: ${{ github.workspace }}\license.lic
+  LB_LICENSE_FILE_B64: ${{ secrets.LIQUIBASE_LICENSE_FILE_B64 }}
+  LIQUIBASE_LICENSE_FILE: ${{ github.workspace }}/license.lic
 
   # JDBC URL of the database per environment
   # See https://docs.liquibase.com/workflows/liquibase-community/using-jdbc-url-in-liquibase.html
@@ -103,6 +103,26 @@ jobs:
     - name: Decode Liquibase license file
       shell: bash
       run: echo "${{ secrets.LIQUIBASE_LICENSE_FILE_B64 }}" | base64 -d > license.lic
+
+    - name: Validate license file
+      shell: bash
+      run: |
+        if [ ! -f license.lic ]; then
+          echo "::error::license.lic was not created"
+          exit 1
+        fi
+
+        filesize=$(wc -c < license.lic | tr -d ' ')
+        echo "license.lic size: ${filesize} bytes"
+
+        if [ "$filesize" -eq 0 ]; then
+          echo "::error::license.lic is empty. Check that LIQUIBASE_LICENSE_FILE_B64 is set and is valid base64."
+          exit 1
+        fi
+
+        if [ "$filesize" -lt 50 ]; then
+          echo "::warning::license.lic is only ${filesize} bytes — this looks smaller than expected for a license file."
+        fi
 
     - name: Setup Liquibase Environment
       uses: ./.github/workflows/setup-liquibase
