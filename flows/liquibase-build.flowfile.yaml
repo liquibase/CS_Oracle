@@ -9,7 +9,8 @@ globalVariables:
   BUCKET: ${AWS_S3_BUCKET}
   ENV: ${ENVIRONMENT}
   CHECK_DRIFT: ${LB_CHECK_DRIFT}
-  SCHEMAS: ${LB_SCHEMAS:-'dbo'}  
+  SCHEMAS: ${LB_SCHEMAS:-'dbo'}
+  RUNNER_OS: "${RUNNER_OS:-Windows}"  
   
 stages:
 
@@ -21,8 +22,18 @@ stages:
   Validate:
     actions:
       - type: shell
+        if: "${RUNNER_OS} == Windows"
         command: (if not exist "reports" mkdir reports) & (liquibase validate > temp.txt 2>&1) & (if errorlevel 1 ((echo ^<pre^> & type temp.txt & echo ^</pre^>) > reports/ValidationError.html & del temp.txt) else (del temp.txt))
-
+      - type: shell
+        if: "${RUNNER_OS} != Windows"
+        command: >
+          mkdir -p reports &&
+          (liquibase validate > temp.txt 2>&1;
+          if [ $? -ne 0 ]; then
+            { echo "<pre>"; cat temp.txt; echo "</pre>"; } > reports/ValidationError.html;
+          fi;
+          rm -f temp.txt)
+        
 #  Drift-Detection:
 #    Check if manual updates were made to the environment since last deployment
 #    actions:
