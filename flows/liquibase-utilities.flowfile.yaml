@@ -5,6 +5,7 @@ globalVariables:
   ENV: ${ENVIRONMENT}
   SCHEMAS: ${LB_SCHEMAS}
   UTILITY: ${LB_UTILITY}
+  BUCKET: ${AWS_S3_BUCKET}
 
 stages:
   Utility:
@@ -39,14 +40,22 @@ stages:
         command: release-locks
 
       - type: liquibase
-        if: "${UTILITY} == snapshot-zip"
+        if: "${UTILITY} == snapshot"
         command: snapshot
         cmdArgs: {  snapshot-format: json, schemas: "${SCHEMAS}"}
         globalArgs: { output-file: 'snapshots/${ENV}-snapshot.json' }
         
       - type: shell
-        if: "${UTILITY} == snapshot-zip"
+        if: "${UTILITY} == snapshot"
         command: echo 'Snapshot saved to snapshots/${ENV}-snapshot.json'
+
+      - type: liquibase
+        command: snapshot
+        cmdArgs: {  snapshot-format: json, schemas: "${SCHEMAS}"}
+        globalArgs: { output-file: 's3://${BUCKET}/oracleSnapshots/${ENV}-snapshot.json' }
+        
+      - type: shell
+        command: echo 'Updated snapshot saved to s3://${BUCKET}/oracleSnapshots/${ENV}-snapshot.json'
 
       - type: liquibase
         if: "${UTILITY} == status"
